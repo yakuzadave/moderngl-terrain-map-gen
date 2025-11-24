@@ -39,6 +39,8 @@ def shade_heightmap(
         dx=dx,
         dy=dy,
     )
+    if rgb.ndim == 3 and rgb.shape[2] == 4:
+        rgb = rgb[:, :, :3]
     return np.clip(rgb * 255.0, 0.0, 255.0).astype(np.uint8)
 
 

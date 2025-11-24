@@ -33,6 +33,7 @@ from .textures import (
     save_curvature_map,
     save_packed_texture,
     save_splatmap_rgba,
+    save_scatter_map,
 )
 from .advanced_rendering import (
     render_turntable_frames,
@@ -74,6 +75,7 @@ __all__ = [
     "save_ao_map",
     "save_curvature_map",
     "save_packed_texture",
+    "save_scatter_map",
     "render_turntable_frames",
     "save_turntable_video",
     "render_multi_angle",
