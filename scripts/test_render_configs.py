@@ -169,8 +169,8 @@ def run_comprehensive_test(
     print("="*70)
 
     # Create output directory
-    output_dir = Path("test_render_output")
-    output_dir.mkdir(exist_ok=True)
+    output_dir = Path(__file__).parent.parent / "output" / "test_render_output"
+    output_dir.mkdir(parents=True, exist_ok=True)
     print(f"\nOutput directory: {output_dir.absolute()}")
 
     # Generate terrain

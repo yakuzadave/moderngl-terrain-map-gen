@@ -4,15 +4,11 @@ Visual verification of seamless terrain tiling.
 Creates a 2x2 grid of the same terrain to check for visible seams.
 """
 
-from src.utils import save_shaded_relief_png, shade_heightmap
-from src import ErosionTerrainGenerator
 import numpy as np
 from PIL import Image
 from pathlib import Path
-import sys
-
-# Add project root to path
-sys.path.append(str(Path(__file__).parents[1]))
+from src import ErosionTerrainGenerator
+from src.utils import save_shaded_relief_png, shade_heightmap
 
 
 def verify_seamless_tiling():

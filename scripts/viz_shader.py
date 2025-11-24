@@ -11,7 +11,7 @@ SHADER_ARGS = None
 class ShaderPreview(mglw.WindowConfig):
     gl_version = (3, 3)
     title = "GLSL Preview"
-    resource_dir = (Path(__file__).parents[1] / 'src' / 'shaders').resolve()
+    resource_dir = (Path(__file__).parent / 'src' / 'shaders').resolve()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

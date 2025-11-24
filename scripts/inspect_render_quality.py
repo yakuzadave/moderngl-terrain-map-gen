@@ -181,10 +181,10 @@ def generate_recommendations(analysis_results: dict[str, Any]) -> list[str]:
 
 def main():
     """Run visual inspection analysis."""
-    output_dir = Path("test_render_output")
+    output_dir = Path(__file__).parent.parent / "output" / "test_render_output"
 
     if not output_dir.exists():
-        print("Error: test_render_output directory not found!")
+        print(f"Error: {output_dir} directory not found!")
         print("Run test_render_configs.py first to generate test renders.")
         return
 

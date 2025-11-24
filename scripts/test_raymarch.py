@@ -1,9 +1,13 @@
 import numpy as np
+from pathlib import Path
 from PIL import Image
 from src.generators.erosion import ErosionTerrainGenerator, ErosionParams
 from src.generators.hydraulic import HydraulicErosionGenerator, HydraulicParams
 from src.utils import gl_context
 import moderngl
+
+# Output directory for test results
+OUTPUT_DIR = Path(__file__).parent.parent / "output"
 
 
 def test_raymarch():
@@ -83,11 +87,13 @@ def test_raymarch():
     )
 
     print("Saving output...")
-    Image.fromarray(img_array).save("test_raymarch_improved.png")
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    output_path = OUTPUT_DIR / "test_raymarch_improved.png"
+    Image.fromarray(img_array).save(output_path)
 
     gen.cleanup()
     hydro_gen.cleanup()
-    print("Done! Saved to test_raymarch_improved.png")
+    print(f"Done! Saved to {output_path}")
 
 
 if __name__ == "__main__":

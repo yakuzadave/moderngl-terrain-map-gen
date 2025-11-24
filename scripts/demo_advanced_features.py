@@ -24,8 +24,8 @@ def demo_postprocessing_effects():
     print("ADVANCED POST-PROCESSING DEMO")
     print("="*70)
 
-    output_dir = Path("postprocessing_demo_output")
-    output_dir.mkdir(exist_ok=True)
+    output_dir = Path(__file__).parent.parent / "output" / "postprocessing_demo_output"
+    output_dir.mkdir(parents=True, exist_ok=True)
 
     # Generate terrain
     print("\n1. Generating terrain...")

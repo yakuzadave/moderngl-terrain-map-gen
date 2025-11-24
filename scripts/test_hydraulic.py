@@ -1,12 +1,17 @@
 import moderngl
 import numpy as np
+from pathlib import Path
 from PIL import Image
 from src.generators.erosion import ErosionTerrainGenerator
 from src.generators.hydraulic import HydraulicErosionGenerator, HydraulicParams
 from src.utils import gl_context
 
+# Output directory for test results
+OUTPUT_DIR = Path(__file__).parent.parent / "output"
+
 
 def main():
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     # Create context if not exists
     try:
         ctx = gl_context.create_context()
@@ -23,7 +28,7 @@ def main():
 
     # Save base
     Image.fromarray((np.clip(base_terrain.height, 0, 1) *
-                    255).astype('uint8')).save("test_hydraulic_base.png")
+                    255).astype('uint8')).save(OUTPUT_DIR / "test_hydraulic_base.png")
 
     # 2. Apply hydraulic erosion
     print("Applying hydraulic erosion...")
@@ -42,7 +47,7 @@ def main():
 
     # Save result
     Image.fromarray((np.clip(eroded_terrain.height, 0, 1) *
-                    255).astype('uint8')).save("test_hydraulic_eroded.png")
+                    255).astype('uint8')).save(OUTPUT_DIR / "test_hydraulic_eroded.png")
 
     # Save difference
     diff = base_terrain.height - eroded_terrain.height
@@ -52,7 +57,7 @@ def main():
     if diff.max() > diff.min():
         diff_norm = (diff - diff.min()) / (diff.max() - diff.min())
         Image.fromarray((diff_norm * 255).astype('uint8')
-                        ).save("test_hydraulic_diff.png")
+                        ).save(OUTPUT_DIR / "test_hydraulic_diff.png")
 
     # Save sediment mask
     if eroded_terrain.erosion_mask is not None:
@@ -60,7 +65,7 @@ def main():
         print(f"Sediment range: {sed.min()} to {sed.max()}")
         sed_norm = (sed - sed.min()) / (sed.max() - sed.min() + 1e-6)
         Image.fromarray((sed_norm * 255).astype('uint8')
-                        ).save("test_hydraulic_sediment.png")
+                        ).save(OUTPUT_DIR / "test_hydraulic_sediment.png")
 
     print("Done!")
 
