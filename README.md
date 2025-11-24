@@ -2,6 +2,13 @@
 
 High-performance procedural terrain generation using ModernGL with multi-format export for game engines and 3D applications.
 
+## 📚 Documentation
+
+- **[Quick Reference](docs/quick-reference.md)** - Common operations and code snippets
+- **[API Reference](docs/api-reference.md)** - Complete Python API documentation
+- **[Module Reference](docs/module-reference.md)** - Detailed module structure
+- **[Documentation Index](docs/index.md)** - All documentation
+
 ## Features
 
 ### Core Generation
@@ -20,9 +27,9 @@ High-performance procedural terrain generation using ModernGL with multi-format 
 - **Thermal Erosion**: Simulation of talus deposition and material collapse
 
 ### Export Formats
-- **Heightmaps**: 16-bit PNG for maximum precision
+- **Heightmaps**: 16-bit PNG, RAW, R32 (32-bit float) for game engines
 - **Normal Maps**: Tangent-space RGB normal maps
-- **Meshes**: Wavefront OBJ and binary STL formats
+- **Meshes**: Wavefront OBJ, binary STL, glTF 2.0 with embedded textures
 - **Textures**: Splatmaps, AO, curvature, packed textures, scatter maps
 - **Data**: Compressed NumPy archives (.npz)
 - **Previews**: Shaded relief visualizations
@@ -69,19 +76,16 @@ scipy>=1.11.0
 python gpu_terrain.py --preset canyon
 
 # Export heightmap and mesh
-python gpu_terrain.py --heightmap-out terrain.png --obj-out terrain.obj
+python gpu_terrain.py --heightmap-out terrain.png --gltf-out terrain.gltf
 
 # High-resolution export
 python gpu_terrain.py --resolution 2048 --heightmap-out terrain_hires.png
 
-# Generate complete material set
+# Export all formats at once
 python gpu_terrain.py \
   --preset mountains \
-  --heightmap-out height.png \
-  --normals-out normal.png \
-  --splatmap-out splat.png \
-  --ao-out ao.png \
-  --obj-out mesh.obj
+  --export-all exports/ \
+  --export-formats png,raw,obj,gltf,npz
 ```
 
 ## Usage Guide
@@ -121,8 +125,39 @@ python gpu_terrain.py --obj-out terrain.obj
 # Binary STL for 3D printing
 python gpu_terrain.py --stl-out terrain.stl
 
-# Both formats
-python gpu_terrain.py --obj-out terrain.obj --stl-out terrain.stl
+# glTF 2.0 with embedded textures (web/game engines)
+python gpu_terrain.py --gltf-out terrain.gltf
+
+# Control mesh scale
+python gpu_terrain.py --gltf-out terrain.gltf --mesh-scale 50 --mesh-height-scale 3
+```
+
+#### Batch Export (All Formats)
+```bash
+# Export all formats to a directory
+python gpu_terrain.py --export-all exports/ --export-formats png,raw,r32,obj,stl,gltf,npz
+
+# Custom format selection
+python gpu_terrain.py --export-all exports/ --export-formats png,gltf,npz
+
+# With custom mesh scaling
+python gpu_terrain.py \
+  --export-all unity_assets/ \
+  --export-formats raw,gltf \
+  --mesh-scale 100 \
+  --mesh-height-scale 2.5
+```
+
+#### Raw Binary Formats
+```bash
+# 16-bit RAW (Unity/Unreal compatible)
+python gpu_terrain.py --raw-out terrain.raw
+
+# 32-bit float R32 (maximum precision)
+python gpu_terrain.py --r32-out terrain.r32
+
+# NumPy compressed bundle (all data)
+python gpu_terrain.py --bundle-out terrain.npz
 ```
 
 #### Game Engine Textures
@@ -310,6 +345,8 @@ terrain = gen.generate_heightmap(
 
 ## Documentation
 
+- **[docs/EXPORT_FORMATS.md](docs/EXPORT_FORMATS.md)**: Complete guide to all export formats (PNG, RAW, R32, OBJ, STL, glTF, NPZ)
+- **[docs/EXPORT_CLI_REFERENCE.md](docs/EXPORT_CLI_REFERENCE.md)**: Quick CLI reference for export commands
 - **[ADVANCED_RENDERING.md](ADVANCED_RENDERING.md)**: Complete guide to turntable animations, multi-angle renders, and lighting studies
 - **[TEXTURE_EXPORTS.md](TEXTURE_EXPORTS.md)**: Complete texture export guide (splatmaps, AO, curvature, packed textures)
 - **[BATCH_GENERATION.md](BATCH_GENERATION.md)**: Batch generation workflows and automation
