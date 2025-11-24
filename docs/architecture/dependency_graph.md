@@ -7,6 +7,9 @@ This document visualizes the current architectural dependencies and identifies c
 The following diagram illustrates the high-level dependencies between the core modules.
 
 ```mermaid
+---
+id: 53326af0-9c1c-4315-ab82-a3eda6cffb99
+---
 graph TD
     subgraph Application
         CLI[gpu_terrain.py]
