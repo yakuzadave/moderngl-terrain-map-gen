@@ -1,0 +1,55 @@
+version: 1.0
+resolution: 512
+seed: 11111
+seamless: false
+
+# Output settings
+output_heightmap: true
+output_normals: true
+output_shaded: true
+output_obj: false
+output_stl: false
+
+# Terrain preset: plains (gentle rolling hills)
+height_tiles: 4.0
+height_octaves: 2
+height_amp: 0.5
+height_gain: 0.5
+height_lacunarity: 2.0
+erosion_tiles: 4.0
+erosion_octaves: 2
+erosion_gain: 0.5
+erosion_lacunarity: 2.0
+erosion_slope_strength: 1.0
+erosion_branch_strength: 0.2
+erosion_strength: 0.3
+water_height: 0.0
+
+# Render style: noon (overhead flat lighting)
+azimuth: 45
+altitude: 90
+vert_exag: 1.0
+blend_mode: soft
+colormap: terrain
+cmap_norm: linear
+
+# Post-processing
+tone_map_method: reinhard
+color_grade_contrast: 1.0
+color_grade_brightness: 1.0
+color_grade_saturation: 1.0
+color_grade_highlights: 0.0
+color_grade_shadows: 0.0
+color_grade_gamma: 1.0
+apply_bloom: false
+bloom_radius: 5
+bloom_strength: 0.3
+apply_sharpening: false
+sharpen_method: unsharp
+sharpen_amount: 0.5
+apply_ssao: false
+ssao_radius: 10
+ssao_strength: 0.3
+apply_atmospheric: false
+atmos_color: [0.6, 0.7, 0.9]
+atmos_density: 0.01

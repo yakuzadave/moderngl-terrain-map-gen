@@ -1,0 +1,9 @@
+moderngl
+moderngl-window
+numpy
+pillow
+matplotlib
+streamlit>=1.28.0
+pyyaml
+scipy
+imageio
