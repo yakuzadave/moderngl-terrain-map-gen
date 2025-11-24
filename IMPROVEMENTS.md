@@ -354,3 +354,16 @@ The codebase is now more maintainable, better documented, and provides more valu
 - **Domain Warping**: Implemented domain warping in `erosion_heightmap.frag` to create more organic, distorted terrain shapes.
 - **Ridge Noise**: Added support for "Ridge Noise" (inverted absolute noise) to generate sharp, mountain-like peaks.
 - **Configurable Raymarching**: Exposed `shadow_softness` and `ao_strength` to CLI and Python API for fine-tuning render look.
+
+**5. Procedural Vegetation & Biomes**
+- **Scatter Maps**: Implemented a new GPU pass (`scatter_density.frag`) to generate density maps for vegetation placement.
+- **Biome Logic**:
+  - **Trees (Red)**: Placed on moderate slopes, specific height bands, and high moisture areas.
+  - **Rocks (Green)**: Placed on steep slopes (cliffs).
+  - **Grass (Blue)**: Placed on flat areas where trees and rocks are absent.
+- **Export Pipeline**: Added support for exporting these maps as RGB PNGs via CLI (`--scatter-out`) and UI.
+
+**6. Architectural Improvements**
+- **Context Managers**: Implemented `__enter__` and `__exit__` methods for `ErosionTerrainGenerator`, `HydraulicErosionGenerator`, and `MorphologicalTerrainGPU`. This ensures reliable cleanup of ModernGL resources (textures, framebuffers, contexts) using the `with` statement, preventing memory leaks in long-running applications like the Streamlit UI.
+- **Robust Shader Loading**: Refactored `src/utils/shader_loader.py` to use `importlib.resources` (standard in Python 3.9+). This allows shaders to be loaded reliably even when the project is installed as a package or run from different working directories, removing the fragility of relative path assumptions.
+

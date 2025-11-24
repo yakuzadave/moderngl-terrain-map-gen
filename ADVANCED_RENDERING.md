@@ -12,6 +12,38 @@ The advanced rendering module provides multiple output methods for terrain visua
 - **Comparison grids**: Side-by-side terrain comparisons
 - **Custom animations**: Build your own animation sequences
 
+## Real-time GLSL Rendering
+
+The system now includes a high-fidelity real-time rendering pipeline implemented in GLSL (`erosion_viz.frag` and `erosion_raymarch.frag`).
+
+### Features
+
+1.  **Physically Based Rendering (PBR)**
+    - **Tri-planar Mapping**: Textures applied without UV distortion using world-space coordinates.
+    - **Material Blending**: Smooth transitions between Sand, Grass, Rock, and Snow based on slope and height.
+    - **Roughness/Metallic**: Per-material surface properties.
+
+2.  **Atmospheric Effects**
+    - **Height Fog**: Exponential fog density that decreases with altitude.
+    - **Mie Scattering**: Realistic sun glare and atmospheric perspective.
+    - **Sun Light**: Directional lighting with configurable color and intensity.
+
+3.  **Advanced Shadows**
+    - **Raymarched Shadows**: Soft shadows calculated by raymarching through the heightmap.
+    - **Ambient Occlusion**: Horizon-Based Ambient Occlusion (HBAO) approximation for depth in crevices.
+
+### Usage
+
+Enable these features via the CLI:
+
+```bash
+# Enable raymarched shadows and fog
+python gpu_terrain.py --render ray --ray-fog-density 0.05 --ray-shadow-softness 1.0
+
+# Adjust sun position for shadows
+python gpu_terrain.py --render ray --shade-azimuth 45 --shade-altitude 30
+```
+
 ## Command-Line Usage
 
 ### Turntable Video

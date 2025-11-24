@@ -40,6 +40,12 @@ class ErosionParams:
     erosion_strength: float = 0.04
     warp_strength: float = 0.0  # Domain warping strength
     ridge_noise: int = 0        # 0 = Standard FBM, 1 = Ridge Noise
+    moisture_scale: float = 2.0
+    moisture_octaves: int = 4
+    moisture_offset: float = 0.0
+    thermal_iterations: int = 0
+    thermal_threshold: float = 0.001
+    thermal_strength: float = 0.5
 
     @classmethod
     def canyon(cls) -> "ErosionParams":
@@ -52,6 +58,9 @@ class ErosionParams:
             erosion_branch_strength=4.5,
             warp_strength=0.5,
             ridge_noise=1,
+            thermal_iterations=10,
+            thermal_threshold=0.002,
+            thermal_strength=0.5,
         )
 
     @classmethod
@@ -126,10 +135,16 @@ class ErosionTerrainGenerator:
 
         self.height_program = self._compile_program(
             "quad.vert", "erosion_heightmap.frag")
+        self.thermal_program = self._compile_program(
+            "quad.vert", "thermal_erosion.frag")
+        self.normal_program = self._compile_program(
+            "quad.vert", "recompute_normals.frag")
         self.viz_program = self._compile_program(
             "quad.vert", "erosion_viz.frag")
         self.ray_program = self._compile_program(
             "quad.vert", "erosion_raymarch.frag")
+        self.scatter_program = self._compile_program(
+            "quad.vert", "scatter_density.frag")
 
         self._create_framebuffers()
         self._create_geometry()
@@ -157,11 +172,29 @@ class ErosionTerrainGenerator:
         size = (self.resolution, self.resolution)
         self.heightmap_texture = self.ctx.texture(size, 4, dtype="f4")
         self.heightmap_texture.filter = (moderngl.LINEAR, moderngl.LINEAR)
+
+        self.aux_texture = self.ctx.texture(size, 4, dtype="f4")
+        self.aux_texture.filter = (moderngl.LINEAR, moderngl.LINEAR)
+
+        # FBO for initial generation (writes to both height and aux)
+        self.gen_fbo = self.ctx.framebuffer(
+            [self.heightmap_texture, self.aux_texture])
+
+        # FBOs for single-texture operations (thermal erosion, readback)
         self.heightmap_fbo = self.ctx.framebuffer([self.heightmap_texture])
+        self.aux_fbo = self.ctx.framebuffer([self.aux_texture])
+
+        self.pingpong_texture = self.ctx.texture(size, 4, dtype="f4")
+        self.pingpong_texture.filter = (moderngl.LINEAR, moderngl.LINEAR)
+        self.pingpong_fbo = self.ctx.framebuffer([self.pingpong_texture])
 
         self.viz_texture = self.ctx.texture(size, 3, dtype="f1")
         self.viz_texture.filter = (moderngl.LINEAR, moderngl.LINEAR)
         self.viz_fbo = self.ctx.framebuffer([self.viz_texture])
+
+        self.scatter_texture = self.ctx.texture(size, 4, dtype="f1")
+        self.scatter_texture.filter = (moderngl.LINEAR, moderngl.LINEAR)
+        self.scatter_fbo = self.ctx.framebuffer([self.scatter_texture])
 
     def _create_geometry(self) -> None:
         """
@@ -183,6 +216,31 @@ class ErosionTerrainGenerator:
             [(self.vbo, "2f", "in_position")],
             self.ibo,
         )
+        self.thermal_quad = self.ctx.vertex_array(
+            self.thermal_program,
+            [(self.vbo, "2f", "in_position")],
+            self.ibo,
+        )
+        self.normal_quad = self.ctx.vertex_array(
+            self.normal_program,
+            [(self.vbo, "2f", "in_position")],
+            self.ibo,
+        )
+        self.viz_quad = self.ctx.vertex_array(
+            self.viz_program,
+            [(self.vbo, "2f", "in_position")],
+            self.ibo,
+        )
+        self.ray_quad = self.ctx.vertex_array(
+            self.ray_program,
+            [(self.vbo, "2f", "in_position")],
+            self.ibo,
+        )
+        self.scatter_quad = self.ctx.vertex_array(
+            self.scatter_program,
+            [(self.vbo, "2f", "in_position")],
+            self.ibo,
+        )
 
     # ------------------------------------------------------------------
     # Generation API
@@ -200,8 +258,10 @@ class ErosionTerrainGenerator:
             params.erosion_tiles = max(1.0, round(params.erosion_tiles))
 
         uniforms = params.uniforms()
-        self.heightmap_fbo.use()
-        self.heightmap_fbo.clear(0.0, 0.0, 0.0, 1.0)
+
+        # Use gen_fbo for initial render (Height + Aux)
+        self.gen_fbo.use()
+        self.gen_fbo.clear(0.0, 0.0, 0.0, 1.0)
 
         program = self.height_program
         program["useErosion"].value = 1 if self.use_erosion else 0  # type: ignore
@@ -221,20 +281,115 @@ class ErosionTerrainGenerator:
 
         self.quad.render(moderngl.TRIANGLES)
 
+        # Apply thermal erosion if requested
+        if params.thermal_iterations > 0:
+            self.apply_thermal_erosion(
+                params.thermal_iterations,
+                params.thermal_threshold,
+                params.thermal_strength
+            )
+
         raw = self.heightmap_fbo.read(components=4, dtype="f4")
         data = np.frombuffer(raw, dtype="f4").reshape(
             (self.resolution, self.resolution, 4))
         data = np.flip(data, axis=0)
 
+        raw_aux = self.aux_fbo.read(components=4, dtype="f4")
+        data_aux = np.frombuffer(raw_aux, dtype="f4").reshape(
+            (self.resolution, self.resolution, 4))
+        data_aux = np.flip(data_aux, axis=0)
+
         height = data[:, :, 0]
         nx = data[:, :, 1]
         nz = data[:, :, 2]
         erosion = data[:, :, 3]
+
+        moisture = data_aux[:, :, 0]
+        temperature = data_aux[:, :, 1]
+        biome = data_aux[:, :, 2]
+
         ny_sq = np.clip(1.0 - nx**2 - nz**2, 0.0, 1.0)
         ny = np.sqrt(ny_sq)
         normals = np.stack([nx, ny, nz], axis=-1)
 
-        return TerrainMaps(height=height, normals=normals, erosion_mask=erosion)
+        # Generate scatter map
+        scatter_map = self.generate_scatter_map(params.water_height)
+
+        return TerrainMaps(
+            height=height,
+            normals=normals,
+            erosion_mask=erosion,
+            scatter_map=scatter_map,
+            moisture_map=moisture,
+            temperature_map=temperature,
+            biome_map=biome
+        )
+
+    def generate_scatter_map(self, water_height: float) -> np.ndarray:
+        """
+        Generates a scatter density map (Trees, Rocks, Grass) based on the
+        current heightmap state.
+        """
+        self.scatter_fbo.use()
+        self.scatter_fbo.clear(0.0, 0.0, 0.0, 0.0)
+
+        self.heightmap_texture.use(location=0)
+
+        program = self.scatter_program
+        program["u_heightmap"].value = 0  # type: ignore
+        program["u_waterHeight"].value = float(water_height)  # type: ignore
+
+        self.scatter_quad.render(moderngl.TRIANGLES)
+
+        raw = self.scatter_fbo.read(components=4, dtype="f1")
+        data = np.frombuffer(raw, dtype="u1").reshape(
+            (self.resolution, self.resolution, 4))
+        return np.flip(data, axis=0)
+
+    def apply_thermal_erosion(self, iterations: int, threshold: float, strength: float) -> None:
+        """
+        Applies thermal erosion (talus deposition) to the heightmap.
+        This simulates material falling down steep slopes.
+        """
+        if iterations <= 0:
+            return
+
+        texel = 1.0 / float(self.resolution)
+
+        # Ping-pong loop for thermal erosion
+        for _ in range(iterations):
+            # Render from heightmap -> pingpong
+            self.pingpong_fbo.use()
+            self.heightmap_texture.use(location=0)
+
+            self.thermal_program["u_heightmap"].value = 0  # type: ignore
+            self.thermal_program["u_texelSize"].value = (
+                texel, texel)  # type: ignore
+            self.thermal_program["u_talusThreshold"].value = float(
+                threshold)  # type: ignore
+            self.thermal_program["u_thermalStrength"].value = float(
+                strength)  # type: ignore
+
+            self.thermal_quad.render(moderngl.TRIANGLES)
+
+            # Swap textures and FBOs so heightmap_texture holds the result
+            self.heightmap_texture, self.pingpong_texture = self.pingpong_texture, self.heightmap_texture
+            self.heightmap_fbo, self.pingpong_fbo = self.pingpong_fbo, self.heightmap_fbo
+
+        # Recompute normals after erosion
+        # Render from current heightmap -> pingpong (to get new normals)
+        self.pingpong_fbo.use()
+        self.heightmap_texture.use(location=0)
+
+        self.normal_program["u_heightmap"].value = 0  # type: ignore
+        self.normal_program["u_texelSize"].value = (
+            texel, texel)  # type: ignore
+
+        self.normal_quad.render(moderngl.TRIANGLES)
+
+        # Swap back so heightmap_texture has the final result with normals
+        self.heightmap_texture, self.pingpong_texture = self.pingpong_texture, self.heightmap_texture
+        self.heightmap_fbo, self.pingpong_fbo = self.pingpong_fbo, self.heightmap_fbo
 
     # ------------------------------------------------------------------
     # Rendering options
@@ -244,6 +399,7 @@ class ErosionTerrainGenerator:
         water_height: float = 0.45,
         sun_dir: Tuple[float, float, float] = (-1.0, 0.1, 0.25),
         mode: int = 0,
+        time: float = 0.0,
     ) -> np.ndarray:
         """
         Renders a visualization of the terrain using the erosion_viz shader.
@@ -253,6 +409,7 @@ class ErosionTerrainGenerator:
             sun_dir: Direction vector of the sun light.
             mode: Visualization mode (0=Standard, 1=Height, 2=Normals,
                   3=Erosion, 4=Slope, 5=Curvature).
+            time: Time in seconds for animation (water, clouds).
 
         Returns:
             A numpy array of shape (resolution, resolution, 3) containing the
@@ -262,18 +419,23 @@ class ErosionTerrainGenerator:
         self.viz_fbo.clear(0.0, 0.0, 0.0, 1.0)
 
         self.heightmap_texture.use(location=0)
+        self.detail_texture.use(location=1)
+
         program = self.viz_program
         program["u_heightmap"].value = 0  # type: ignore
+        program["u_detail"].value = 1  # type: ignore
         program["u_waterHeight"].value = float(water_height)  # type: ignore
         program["u_sunDir"].value = tuple(map(float, sun_dir))  # type: ignore
         program["u_mode"].value = int(mode)  # type: ignore
+        if "u_time" in program:
+            program["u_time"].value = float(time)  # type: ignore
 
-        vao = self.ctx.vertex_array(
-            program,
-            [(self.vbo, "2f", "in_position")],
-            self.ibo,
-        )
-        vao.render(moderngl.TRIANGLES)
+        # Enable triplanar if mode is 0 (Standard) or maybe add a new mode?
+        # For now, let's enable it by default for standard mode if the uniform exists
+        if "u_useTriplanar" in program:
+            program["u_useTriplanar"].value = 1  # type: ignore
+
+        self.viz_quad.render(moderngl.TRIANGLES)
 
         raw = self.viz_fbo.read(components=3, dtype="f1")
         data = np.frombuffer(raw, dtype="u1").reshape(
@@ -287,6 +449,7 @@ class ErosionTerrainGenerator:
         water_height: float = 0.45,
         sun_dir: Tuple[float, float, float] = (-1.0, 0.1, 0.25),
         *,
+        time: float = 0.0,
         exposure: float = 1.0,
         fog_color: Tuple[float, float, float] = (0.6, 0.7, 0.8),
         fog_density: float = 0.1,
@@ -306,6 +469,7 @@ class ErosionTerrainGenerator:
             look_at: Target point the camera is looking at.
             water_height: Height of the water plane.
             sun_dir: Direction vector of the sun light.
+            time: Time in seconds for animation.
             exposure: Exposure multiplier for tone mapping.
             fog_color: Color of the atmospheric fog.
             fog_density: Density of the distance fog.
@@ -332,7 +496,7 @@ class ErosionTerrainGenerator:
         program["u_res"].value = (  # type: ignore
             float(self.resolution), float(self.resolution))
         if "u_time" in program:
-            program["u_time"].value = 0.0  # type: ignore
+            program["u_time"].value = float(time)  # type: ignore
         program["u_camPos"].value = tuple(map(float, camera_pos))  # type: ignore
         program["u_lookAt"].value = tuple(map(float, look_at))  # type: ignore
         program["u_waterHeight"].value = float(water_height)  # type: ignore
@@ -356,12 +520,7 @@ class ErosionTerrainGenerator:
         if "u_aoStrength" in program:
             program["u_aoStrength"].value = float(ao_strength)  # type: ignore
 
-        vao = self.ctx.vertex_array(
-            program,
-            [(self.vbo, "2f", "in_position")],
-            self.ibo,
-        )
-        vao.render(moderngl.TRIANGLES)
+        self.ray_quad.render(moderngl.TRIANGLES)
 
         raw = self.viz_fbo.read(components=3, dtype="f1")
         data = np.frombuffer(raw, dtype="u1").reshape(
@@ -370,16 +529,34 @@ class ErosionTerrainGenerator:
 
     # ------------------------------------------------------------------
     def cleanup(self) -> None:
+        self.gen_fbo.release()
         self.heightmap_fbo.release()
+        self.aux_fbo.release()
+        self.pingpong_fbo.release()
         self.viz_fbo.release()
+        self.scatter_fbo.release()
         self.heightmap_texture.release()
+        self.aux_texture.release()
+        self.pingpong_texture.release()
         self.viz_texture.release()
+        self.scatter_texture.release()
         self.vbo.release()
         self.ibo.release()
         self.quad.release()
+        self.thermal_quad.release()
+        self.normal_quad.release()
+        self.viz_quad.release()
+        self.ray_quad.release()
+        self.scatter_quad.release()
         self.detail_texture.release()
         if self._own_ctx:
             self.ctx.release()
+
+    def __enter__(self) -> "ErosionTerrainGenerator":
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb) -> None:
+        self.cleanup()
 
     @staticmethod
     def _uniform_name(field_name: str) -> str:

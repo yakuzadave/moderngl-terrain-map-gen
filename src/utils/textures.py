@@ -13,7 +13,29 @@ __all__ = [
     "save_ao_map",
     "save_curvature_map",
     "save_packed_texture",
+    "save_scatter_map",
 ]
+
+
+def save_scatter_map(
+    path: str | Path,
+    terrain,
+) -> Path:
+    """Save the scatter density map (Trees, Rocks, Grass).
+
+    Args:
+        path: Output file path
+        terrain: TerrainMaps instance
+
+    Returns:
+        Path to saved file
+    """
+    target = Path(path)
+    maps = TerrainMaps.ensure(terrain)
+
+    img = Image.fromarray(maps.scatter_map_u8(), mode="RGB")
+    img.save(target)
+    return target
 
 
 def save_splatmap_rgba(

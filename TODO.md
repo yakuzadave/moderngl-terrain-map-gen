@@ -52,6 +52,23 @@
   - Horizon-Based Ambient Occlusion (HBAO) approximation
   - Improved atmospheric scattering model
 
+- ✅ **Marimo Dashboard** - Interactive UI refactor and enhancements (Nov 24, 2025)
+  - Converted `terrain_gen.ipynb` to fully reactive `terrain_gen_marimo.py`
+  - Added sidebar controls, collapsible settings, and real-time preview
+  - Implemented file exports (16-bit PNG, OBJ mesh, NPY raw)
+  - Added `postprocessing_marimo.py` for interactive FX tuning
+  - Added `advanced_rendering_marimo.py` for lighting studies
+  - **Added Interactive 3D Camera** (Yaw/Pitch/Zoom) to main dashboard
+
+- ✅ **Artifact Reduction** - Fixed grid patterns in erosion generator (Nov 24, 2025)
+  - Replaced GLSL hash function with high-quality sine-dot implementation
+  - Added Domain Warp parameter to break up directional artifacts
+
+- ✅ **Biome System** - Implemented Moisture, Temperature, and Biome classification (Nov 24, 2025)
+  - Added Multiple Render Target (MRT) support to `ErosionTerrainGenerator`
+  - Implemented `generateMoisture` and `getBiome` in GLSL
+  - Exposed `moisture_map`, `temperature_map`, `biome_map` in `TerrainMaps`
+
 ### High Priority 🔴
 
 - Visual inspection of seamless 2×2 tiled outputs (human verification)

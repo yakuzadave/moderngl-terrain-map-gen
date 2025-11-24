@@ -7,6 +7,7 @@ This document describes the texture and material export features for game engine
 The terrain generator now supports multiple texture export formats optimized for different game engines and workflows:
 
 - **Splatmaps**: 4-channel RGBA blend maps for terrain texture blending
+- **Scatter Maps**: RGB density maps for procedural vegetation (Trees, Rocks, Grass)
 - **Ambient Occlusion**: Grayscale AO approximation using height variance
 - **Curvature Maps**: Convex/concave surface detection
 - **Packed Textures**: Multi-channel textures for efficient storage
@@ -18,6 +19,9 @@ The terrain generator now supports multiple texture export formats optimized for
 ```bash
 # Generate a splatmap for texture blending
 python gpu_terrain.py --preset canyon --splatmap-out terrain_splat.png
+
+# Generate scatter map for vegetation
+python gpu_terrain.py --preset canyon --scatter-out terrain_biomes.png
 
 # Generate AO map
 python gpu_terrain.py --preset mountains --ao-out terrain_ao.png
@@ -82,6 +86,34 @@ save_splatmap_rgba(
        _RockTex * splat.b +
        _CliffTex * splat.a;
    ```
+
+## Scatter Maps (RGB)
+
+Scatter maps provide density information for procedural asset placement (vegetation, rocks).
+
+### Channel Layout
+
+- **R**: Trees (Moderate slope, specific height range, high moisture)
+- **G**: Rocks (Steep slopes)
+- **B**: Grass (Flat areas, inverse of trees/rocks)
+
+### Usage Example
+
+```python
+from src.utils import save_scatter_map
+
+save_scatter_map(
+    "biomes.png",
+    terrain,
+)
+```
+
+### Integration
+
+Use the channels to drive density for instanced meshes:
+- **Red Channel** -> Tree instances
+- **Green Channel** -> Rock instances
+- **Blue Channel** -> Grass/Detail mesh instances
 
 ## Ambient Occlusion Maps
 
@@ -229,6 +261,7 @@ python gpu_terrain.py \
 from src import ErosionTerrainGenerator
 from src.utils import (
     save_splatmap_rgba,
+    save_scatter_map,
     save_ao_map,
     save_curvature_map,
     save_packed_texture,
@@ -239,6 +272,7 @@ terrain = gen.generate_heightmap(seed=42)
 
 # Export all texture types
 save_splatmap_rgba("splat.png", terrain)
+save_scatter_map("biomes.png", terrain)
 save_ao_map("ao.png", terrain)
 save_curvature_map("curve.png", terrain)
 save_packed_texture("mask.png", terrain, pack_mode="unity_mask")

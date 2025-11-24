@@ -63,9 +63,20 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--turntable-frames", type=int, default=90)
     parser.add_argument("--turntable-interval", type=int, default=40)
     parser.add_argument("--render-out", type=Path, default=None)
-    parser.add_argument("--obj-out", type=Path, default=None)
+    parser.add_argument("--obj-out", type=Path, default=None,
+                        help="Save OBJ mesh")
     parser.add_argument("--stl-out", type=Path, default=None,
                         help="Save binary STL mesh")
+    parser.add_argument("--gltf-out", type=Path, default=None,
+                        help="Save glTF 2.0 mesh with embedded textures")
+    parser.add_argument("--export-all", type=Path, default=None,
+                        help="Export all formats to specified directory")
+    parser.add_argument("--export-formats", type=str, default="png,obj,gltf,npz",
+                        help="Comma-separated list of formats for --export-all (png,raw,r32,obj,stl,gltf,npz)")
+    parser.add_argument("--mesh-scale", type=float, default=10.0,
+                        help="Horizontal scale for mesh exports")
+    parser.add_argument("--mesh-height-scale", type=float, default=2.0,
+                        help="Vertical exaggeration for mesh exports")
     parser.add_argument("--shaded-out", type=Path, default=None,
                         help="Save CPU shaded-relief preview")
     parser.add_argument("--shade-azimuth", type=float, default=315.0)
@@ -80,6 +91,21 @@ def _parse_args() -> argparse.Namespace:
                         help="Domain warping strength (overrides preset default)")
     parser.add_argument("--ridge-noise", action="store_true",
                         help="Enable ridge noise for sharp peaks")
+
+    # Thermal Erosion options
+    parser.add_argument("--thermal-iterations", type=int, default=0,
+                        help="Number of thermal erosion iterations")
+    parser.add_argument("--thermal-threshold", type=float, default=0.001,
+                        help="Height difference threshold for thermal erosion")
+    parser.add_argument("--thermal-strength", type=float, default=0.5,
+                        help="Strength of thermal erosion material transfer")
+
+    # Hydraulic Erosion options (for --generator=hydraulic)
+    parser.add_argument("--hydro-iterations", type=int, default=100,
+                        help="Number of hydraulic erosion iterations")
+    parser.add_argument("--hydro-dt", type=float, default=0.002,
+                        help="Time step for hydraulic erosion")
+
     # Chained generation (context-aware)
     parser.add_argument("--chain-count", type=int, default=0,
                         help="Generate N terrains in sequence, adapting params from previous run")
@@ -139,6 +165,8 @@ def _parse_args() -> argparse.Namespace:
                         help="Save packed texture (use --pack-mode)")
     parser.add_argument("--pack-mode", choices=["unity_mask", "ue_orm", "height_normal_ao"],
                         default="unity_mask", help="Packed texture channel layout")
+    parser.add_argument("--scatter-out", type=Path, default=None,
+                        help="Save scatter density map (R=Trees, G=Rocks, B=Grass)")
 
     # Batch generation
     parser.add_argument("--batch-count", type=int, default=0,
@@ -262,6 +290,11 @@ def main() -> None:
     
     if args.ridge_noise:
         preset_overrides["ridge_noise"] = 1
+
+    if args.thermal_iterations > 0:
+        preset_overrides["thermal_iterations"] = args.thermal_iterations
+        preset_overrides["thermal_threshold"] = args.thermal_threshold
+        preset_overrides["thermal_strength"] = args.thermal_strength
 
     # Chained generation mode (adaptive multi-step)
     if args.chain_count > 0:
@@ -563,12 +596,43 @@ def main() -> None:
             print(f"✓ Saved NPZ bundle to {args.bundle_out}")
 
         if args.obj_out:
-            utils.export_obj_mesh(args.obj_out, terrain)
+            utils.export_obj_mesh(
+                args.obj_out, terrain, 
+                scale=args.mesh_scale, 
+                height_scale=args.mesh_height_scale
+            )
             print(f"✓ Saved OBJ mesh to {args.obj_out}")
 
         if args.stl_out:
-            utils.export_stl_mesh(args.stl_out, terrain)
+            utils.export_stl_mesh(
+                args.stl_out, terrain,
+                scale=args.mesh_scale,
+                height_scale=args.mesh_height_scale
+            )
             print(f"✓ Saved STL mesh to {args.stl_out}")
+
+        if args.gltf_out:
+            utils.export_gltf_mesh(
+                args.gltf_out, terrain,
+                scale=args.mesh_scale,
+                height_scale=args.mesh_height_scale,
+                embed_textures=True
+            )
+            print(f"✓ Saved glTF mesh to {args.gltf_out}")
+
+        if args.export_all:
+            formats = [f.strip() for f in args.export_formats.split(',')]
+            results = utils.export_all_formats(
+                args.export_all, terrain,
+                base_name="terrain",
+                formats=formats,
+                scale=args.mesh_scale,
+                height_scale=args.mesh_height_scale,
+                embed_textures=True
+            )
+            print(f"✓ Exported {len(results)} formats to {args.export_all}")
+            for fmt, path in results.items():
+                print(f"  - {fmt}: {path.name}")
 
         if args.panel_out:
             utils.save_panel_overview(args.panel_out, terrain)
@@ -615,6 +679,10 @@ def main() -> None:
                 args.packed_out, terrain, pack_mode=args.pack_mode)
             print(
                 f"✓ Saved packed texture ({args.pack_mode}) to {args.packed_out}")
+
+        if args.scatter_out:
+            utils.save_scatter_map(args.scatter_out, terrain)
+            print(f"✓ Saved scatter map to {args.scatter_out}")
 
         # Advanced rendering exports
         if args.multi_angle_out:

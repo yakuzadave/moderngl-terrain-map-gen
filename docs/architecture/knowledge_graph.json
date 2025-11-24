@@ -1,0 +1,2146 @@
+{
+  "entities": [
+    {
+      "name": "demo_advanced_features.py::demo_postprocessing_effects",
+      "type": "function",
+      "file_path": "demo_advanced_features.py",
+      "line_number": 21,
+      "docstring": "Demonstrate various post-processing effects.",
+      "parent": null,
+      "dependencies": [
+        "src/__init__.py",
+        "src/utils/__init__.py",
+        "src/utils/postprocessing.py"
+      ]
+    },
+    {
+      "name": "demo_advanced_features.py::demo_multi_lighting_comparison",
+      "type": "function",
+      "file_path": "demo_advanced_features.py",
+      "line_number": 205,
+      "docstring": "Create comparison of different lighting setups.",
+      "parent": null,
+      "dependencies": [
+        "src/__init__.py",
+        "src/utils/__init__.py",
+        "src/utils/postprocessing.py"
+      ]
+    },
+    {
+      "name": "generate_sample_renders.py::generate_samples",
+      "type": "function",
+      "file_path": "generate_sample_renders.py",
+      "line_number": 45,
+      "docstring": "Generate sample renders for each preset configuration.",
+      "parent": null,
+      "dependencies": [
+        "src/__init__.py",
+        "src/utils/__init__.py"
+      ]
+    },
+    {
+      "name": "generate_sample_renders.py::create_comparison_grid",
+      "type": "function",
+      "file_path": "generate_sample_renders.py",
+      "line_number": 116,
+      "docstring": "Create a comparison grid of all renders.",
+      "parent": null,
+      "dependencies": [
+        "src/__init__.py",
+        "src/utils/__init__.py"
+      ]
+    },
+    {
+      "name": "gpu_terrain.py::_vec3",
+      "type": "function",
+      "file_path": "gpu_terrain.py",
+      "line_number": 22,
+      "docstring": null,
+      "parent": null,
+      "dependencies": [
+        "src/__init__.py"
+      ]
+    },
+    {
+      "name": "gpu_terrain.py::_parse_args",
+      "type": "function",
+      "file_path": "gpu_terrain.py",
+      "line_number": 33,
+      "docstring": null,
+      "parent": null,
+      "dependencies": [
+        "src/__init__.py"
+      ]
+    },
+    {
+      "name": "gpu_terrain.py::_ensure_image",
+      "type": "function",
+      "file_path": "gpu_terrain.py",
+      "line_number": 168,
+      "docstring": null,
+      "parent": null,
+      "dependencies": [
+        "src/__init__.py"
+      ]
+    },
+    {
+      "name": "gpu_terrain.py::_terrain_stats",
+      "type": "function",
+      "file_path": "gpu_terrain.py",
+      "line_number": 176,
+      "docstring": "Compute simple stats to drive adaptive chaining.",
+      "parent": null,
+      "dependencies": [
+        "src/__init__.py"
+      ]
+    },
+    {
+      "name": "gpu_terrain.py::_adapt_overrides",
+      "type": "function",
+      "file_path": "gpu_terrain.py",
+      "line_number": 190,
+      "docstring": "Adjust a small set of parameters based on previous terrain roughness.",
+      "parent": null,
+      "dependencies": [
+        "src/__init__.py"
+      ]
+    },
+    {
+      "name": "gpu_terrain.py::_load_preset",
+      "type": "function",
+      "file_path": "gpu_terrain.py",
+      "line_number": 214,
+      "docstring": null,
+      "parent": null,
+      "dependencies": [
+        "src/__init__.py"
+      ]
+    },
+    {
+      "name": "gpu_terrain.py::_save_preset",
+      "type": "function",
+      "file_path": "gpu_terrain.py",
+      "line_number": 228,
+      "docstring": null,
+      "parent": null,
+      "dependencies": [
+        "src/__init__.py"
+      ]
+    },
+    {
+      "name": "gpu_terrain.py::_save_hdr_image",
+      "type": "function",
+      "file_path": "gpu_terrain.py",
+      "line_number": 233,
+      "docstring": "Save float HDR output; prefer EXR via imageio, fallback to NPY.",
+      "parent": null,
+      "dependencies": [
+        "src/__init__.py"
+      ]
+    },
+    {
+      "name": "gpu_terrain.py::main",
+      "type": "function",
+      "file_path": "gpu_terrain.py",
+      "line_number": 265,
+      "docstring": "Main entry point for the GPU terrain generation CLI.\nHandles argument parsing, generator initialization, execution, and artifact export.",
+      "parent": null,
+      "dependencies": [
+        "src/__init__.py"
+      ]
+    },
+    {
+      "name": "gpu_terrain_old.py::ErosionTerrainGenerator",
+      "type": "class",
+      "file_path": "gpu_terrain_old.py",
+      "line_number": 31,
+      "docstring": "GPU-accelerated terrain generator using hydraulic-style erosion.\n\nKey features:\n- All important parameters are uniforms (no shader #defines),\n  so you can drive them from a UI.\n- Domain warping (u_warpStrength, u_warpFrequency) reduces obvious tiling.",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "gpu_terrain_old.py::ErosionTerrainGenerator.__init__",
+      "type": "method",
+      "file_path": "gpu_terrain_old.py",
+      "line_number": 41,
+      "docstring": "Args:\n    resolution: Texture size (heightmap is resolution x resolution).\n    use_erosion: Whether to run the erosion octaves at all.\n    scale: Base tiling factor (used as default for height/erosion tiles).\n    erosion_strength: Default erosion strength.\n    slope_strength: Default slope strength.\n    ctx: Optional existing moderngl.Context. If None, a standalone\n         context is created and owned by this instance.",
+      "parent": "gpu_terrain_old.py::ErosionTerrainGenerator",
+      "dependencies": []
+    },
+    {
+      "name": "gpu_terrain_old.py::ErosionTerrainGenerator._create_detail_texture",
+      "type": "method",
+      "file_path": "gpu_terrain_old.py",
+      "line_number": 117,
+      "docstring": "Create a noise texture for high-frequency detail.",
+      "parent": "gpu_terrain_old.py::ErosionTerrainGenerator",
+      "dependencies": []
+    },
+    {
+      "name": "gpu_terrain_old.py::ErosionTerrainGenerator._create_shaders",
+      "type": "method",
+      "file_path": "gpu_terrain_old.py",
+      "line_number": 126,
+      "docstring": null,
+      "parent": "gpu_terrain_old.py::ErosionTerrainGenerator",
+      "dependencies": []
+    },
+    {
+      "name": "gpu_terrain_old.py::ErosionTerrainGenerator._create_framebuffers",
+      "type": "method",
+      "file_path": "gpu_terrain_old.py",
+      "line_number": 757,
+      "docstring": null,
+      "parent": "gpu_terrain_old.py::ErosionTerrainGenerator",
+      "dependencies": []
+    },
+    {
+      "name": "gpu_terrain_old.py::ErosionTerrainGenerator._create_fullscreen_quad",
+      "type": "method",
+      "file_path": "gpu_terrain_old.py",
+      "line_number": 781,
+      "docstring": null,
+      "parent": "gpu_terrain_old.py::ErosionTerrainGenerator",
+      "dependencies": []
+    },
+    {
+      "name": "gpu_terrain_old.py::ErosionTerrainGenerator.generate_heightmap",
+      "type": "method",
+      "file_path": "gpu_terrain_old.py",
+      "line_number": 807,
+      "docstring": "Generate terrain heightmap on GPU.\n\nArgs:\n    seed: Random seed for the shader.\n    seamless: If True, generates a seamlessly tileable heightmap.\n              This forces tiles to be integers and disables domain rotation.\n    overrides: Optional overrides for any of the default parameters.\n\nReturns:\n    dict with 'height', 'normals', 'erosion_mask' (all np.float32 arrays)",
+      "parent": "gpu_terrain_old.py::ErosionTerrainGenerator",
+      "dependencies": []
+    },
+    {
+      "name": "gpu_terrain_old.py::ErosionTerrainGenerator.render_visualization",
+      "type": "method",
+      "file_path": "gpu_terrain_old.py",
+      "line_number": 900,
+      "docstring": "Render the generated heightmap to a colored image using the visualization shader.\nmode: 0=Shaded, 1=Height, 2=Normals, 3=Erosion, 4=Slope",
+      "parent": "gpu_terrain_old.py::ErosionTerrainGenerator",
+      "dependencies": []
+    },
+    {
+      "name": "gpu_terrain_old.py::ErosionTerrainGenerator.render_3d",
+      "type": "method",
+      "file_path": "gpu_terrain_old.py",
+      "line_number": 929,
+      "docstring": "Render the terrain using 3D raymarching.",
+      "parent": "gpu_terrain_old.py::ErosionTerrainGenerator",
+      "dependencies": []
+    },
+    {
+      "name": "gpu_terrain_old.py::ErosionTerrainGenerator.analyze_terrain",
+      "type": "method",
+      "file_path": "gpu_terrain_old.py",
+      "line_number": 960,
+      "docstring": "Analyze terrain statistics and plot histograms, CDF, and FFT.",
+      "parent": "gpu_terrain_old.py::ErosionTerrainGenerator",
+      "dependencies": []
+    },
+    {
+      "name": "gpu_terrain_old.py::run_comprehensive_tests",
+      "type": "function",
+      "file_path": "gpu_terrain_old.py",
+      "line_number": 1033,
+      "docstring": "Run extensive testing suite with multiple scenarios.",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "gpu_terrain_old.py::create_comparison_visualization",
+      "type": "function",
+      "file_path": "gpu_terrain_old.py",
+      "line_number": 1110,
+      "docstring": "Create a comprehensive comparison of all test results.",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "inspect_render_quality.py::detect_render_issues",
+      "type": "function",
+      "file_path": "inspect_render_quality.py",
+      "line_number": 12,
+      "docstring": "Detect potential rendering issues in an image.",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "inspect_render_quality.py::calculate_quality_score",
+      "type": "function",
+      "file_path": "inspect_render_quality.py",
+      "line_number": 84,
+      "docstring": "Calculate an overall quality score (0-100).",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "inspect_render_quality.py::analyze_all_renders",
+      "type": "function",
+      "file_path": "inspect_render_quality.py",
+      "line_number": 116,
+      "docstring": "Analyze all renders and generate report.",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "inspect_render_quality.py::generate_recommendations",
+      "type": "function",
+      "file_path": "inspect_render_quality.py",
+      "line_number": 139,
+      "docstring": "Generate rendering improvement recommendations.",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "inspect_render_quality.py::main",
+      "type": "function",
+      "file_path": "inspect_render_quality.py",
+      "line_number": 182,
+      "docstring": "Run visual inspection analysis.",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "test_hydraulic.py::main",
+      "type": "function",
+      "file_path": "test_hydraulic.py",
+      "line_number": 9,
+      "docstring": null,
+      "parent": null,
+      "dependencies": [
+        "src/generators/hydraulic.py",
+        "src/utils/__init__.py",
+        "src/generators/erosion.py"
+      ]
+    },
+    {
+      "name": "test_improvements.py::test_imports",
+      "type": "function",
+      "file_path": "test_improvements.py",
+      "line_number": 9,
+      "docstring": "Test that all imports work.",
+      "parent": null,
+      "dependencies": [
+        "src/__init__.py",
+        "src/generators/erosion.py"
+      ]
+    },
+    {
+      "name": "test_improvements.py::test_basic_generation",
+      "type": "function",
+      "file_path": "test_improvements.py",
+      "line_number": 27,
+      "docstring": "Test basic terrain generation.",
+      "parent": null,
+      "dependencies": [
+        "src/__init__.py",
+        "src/generators/erosion.py"
+      ]
+    },
+    {
+      "name": "test_improvements.py::test_presets",
+      "type": "function",
+      "file_path": "test_improvements.py",
+      "line_number": 49,
+      "docstring": "Test terrain presets.",
+      "parent": null,
+      "dependencies": [
+        "src/__init__.py",
+        "src/generators/erosion.py"
+      ]
+    },
+    {
+      "name": "test_improvements.py::test_rendering",
+      "type": "function",
+      "file_path": "test_improvements.py",
+      "line_number": 71,
+      "docstring": "Test basic rendering functions.",
+      "parent": null,
+      "dependencies": [
+        "src/__init__.py",
+        "src/generators/erosion.py"
+      ]
+    },
+    {
+      "name": "test_improvements.py::test_advanced_rendering",
+      "type": "function",
+      "file_path": "test_improvements.py",
+      "line_number": 100,
+      "docstring": "Test advanced rendering functions.",
+      "parent": null,
+      "dependencies": [
+        "src/__init__.py",
+        "src/generators/erosion.py"
+      ]
+    },
+    {
+      "name": "test_improvements.py::test_export",
+      "type": "function",
+      "file_path": "test_improvements.py",
+      "line_number": 128,
+      "docstring": "Test export functions.",
+      "parent": null,
+      "dependencies": [
+        "src/__init__.py",
+        "src/generators/erosion.py"
+      ]
+    },
+    {
+      "name": "test_improvements.py::main",
+      "type": "function",
+      "file_path": "test_improvements.py",
+      "line_number": 163,
+      "docstring": "Run all tests.",
+      "parent": null,
+      "dependencies": [
+        "src/__init__.py",
+        "src/generators/erosion.py"
+      ]
+    },
+    {
+      "name": "test_raymarch.py::test_raymarch",
+      "type": "function",
+      "file_path": "test_raymarch.py",
+      "line_number": 9,
+      "docstring": null,
+      "parent": null,
+      "dependencies": [
+        "src/generators/hydraulic.py",
+        "src/utils/__init__.py",
+        "src/generators/erosion.py"
+      ]
+    },
+    {
+      "name": "test_render_configs.py::calculate_image_metrics",
+      "type": "function",
+      "file_path": "test_render_configs.py",
+      "line_number": 20,
+      "docstring": "Calculate quality metrics for rendered image.",
+      "parent": null,
+      "dependencies": [
+        "src/__init__.py",
+        "src/utils/__init__.py"
+      ]
+    },
+    {
+      "name": "test_render_configs.py::test_single_config",
+      "type": "function",
+      "file_path": "test_render_configs.py",
+      "line_number": 62,
+      "docstring": "Test a single render configuration and return metrics.",
+      "parent": null,
+      "dependencies": [
+        "src/__init__.py",
+        "src/utils/__init__.py"
+      ]
+    },
+    {
+      "name": "test_render_configs.py::create_comparison_sheet",
+      "type": "function",
+      "file_path": "test_render_configs.py",
+      "line_number": 114,
+      "docstring": "Create a comparison sheet showing all renders.",
+      "parent": null,
+      "dependencies": [
+        "src/__init__.py",
+        "src/utils/__init__.py"
+      ]
+    },
+    {
+      "name": "test_render_configs.py::run_comprehensive_test",
+      "type": "function",
+      "file_path": "test_render_configs.py",
+      "line_number": 161,
+      "docstring": "Run comprehensive render configuration tests.",
+      "parent": null,
+      "dependencies": [
+        "src/__init__.py",
+        "src/utils/__init__.py"
+      ]
+    },
+    {
+      "name": "verify_seamless.py::verify_seamless_tiling",
+      "type": "function",
+      "file_path": "verify_seamless.py",
+      "line_number": 14,
+      "docstring": "Generate terrain and create 2x2 tiled visualization.",
+      "parent": null,
+      "dependencies": [
+        "src/utils/artifacts.py",
+        "src/__init__.py",
+        "src/utils/__init__.py"
+      ]
+    },
+    {
+      "name": "viz_shader.py::ShaderPreview",
+      "type": "class",
+      "file_path": "viz_shader.py",
+      "line_number": 11,
+      "docstring": null,
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "viz_shader.py::ShaderPreview.__init__",
+      "type": "method",
+      "file_path": "viz_shader.py",
+      "line_number": 16,
+      "docstring": null,
+      "parent": "viz_shader.py::ShaderPreview",
+      "dependencies": []
+    },
+    {
+      "name": "viz_shader.py::ShaderPreview.load_texture",
+      "type": "method",
+      "file_path": "viz_shader.py",
+      "line_number": 34,
+      "docstring": null,
+      "parent": "viz_shader.py::ShaderPreview",
+      "dependencies": []
+    },
+    {
+      "name": "viz_shader.py::ShaderPreview.load_shader",
+      "type": "method",
+      "file_path": "viz_shader.py",
+      "line_number": 44,
+      "docstring": null,
+      "parent": "viz_shader.py::ShaderPreview",
+      "dependencies": []
+    },
+    {
+      "name": "viz_shader.py::ShaderPreview.on_render",
+      "type": "method",
+      "file_path": "viz_shader.py",
+      "line_number": 69,
+      "docstring": null,
+      "parent": "viz_shader.py::ShaderPreview",
+      "dependencies": []
+    },
+    {
+      "name": "viz_shader.py::ShaderPreview.mouse_position_event",
+      "type": "method",
+      "file_path": "viz_shader.py",
+      "line_number": 89,
+      "docstring": null,
+      "parent": "viz_shader.py::ShaderPreview",
+      "dependencies": []
+    },
+    {
+      "name": "viz_shader.py::ShaderPreview.key_event",
+      "type": "method",
+      "file_path": "viz_shader.py",
+      "line_number": 92,
+      "docstring": null,
+      "parent": "viz_shader.py::ShaderPreview",
+      "dependencies": []
+    },
+    {
+      "name": "app/ui_streamlit.py::generate_terrain",
+      "type": "function",
+      "file_path": "app/ui_streamlit.py",
+      "line_number": 51,
+      "docstring": "Generate terrain based on current configuration.",
+      "parent": null,
+      "dependencies": [
+        "src/config.py",
+        "src/__init__.py",
+        "src/utils/__init__.py"
+      ]
+    },
+    {
+      "name": "app/ui_streamlit.py::render_preview",
+      "type": "function",
+      "file_path": "app/ui_streamlit.py",
+      "line_number": 113,
+      "docstring": "Render preview image from current terrain.",
+      "parent": null,
+      "dependencies": [
+        "src/config.py",
+        "src/__init__.py",
+        "src/utils/__init__.py"
+      ]
+    },
+    {
+      "name": "app/ui_streamlit.py::export_outputs",
+      "type": "function",
+      "file_path": "app/ui_streamlit.py",
+      "line_number": 141,
+      "docstring": "Export terrain to files.",
+      "parent": null,
+      "dependencies": [
+        "src/config.py",
+        "src/__init__.py",
+        "src/utils/__init__.py"
+      ]
+    },
+    {
+      "name": "examples/advanced_rendering_demo.py::demo_turntable",
+      "type": "function",
+      "file_path": "examples/advanced_rendering_demo.py",
+      "line_number": 16,
+      "docstring": "Generate a turntable animation of canyon terrain.",
+      "parent": null,
+      "dependencies": [
+        "src/__init__.py"
+      ]
+    },
+    {
+      "name": "examples/advanced_rendering_demo.py::demo_multi_angle",
+      "type": "function",
+      "file_path": "examples/advanced_rendering_demo.py",
+      "line_number": 46,
+      "docstring": "Render the same terrain from multiple lighting angles.",
+      "parent": null,
+      "dependencies": [
+        "src/__init__.py"
+      ]
+    },
+    {
+      "name": "examples/advanced_rendering_demo.py::demo_lighting_study",
+      "type": "function",
+      "file_path": "examples/advanced_rendering_demo.py",
+      "line_number": 88,
+      "docstring": "Create a comprehensive lighting study.",
+      "parent": null,
+      "dependencies": [
+        "src/__init__.py"
+      ]
+    },
+    {
+      "name": "examples/advanced_rendering_demo.py::demo_comparison_grid",
+      "type": "function",
+      "file_path": "examples/advanced_rendering_demo.py",
+      "line_number": 117,
+      "docstring": "Compare different terrain presets side by side.",
+      "parent": null,
+      "dependencies": [
+        "src/__init__.py"
+      ]
+    },
+    {
+      "name": "examples/advanced_rendering_demo.py::demo_custom_animation",
+      "type": "function",
+      "file_path": "examples/advanced_rendering_demo.py",
+      "line_number": 163,
+      "docstring": "Create a custom animation sequence with changing parameters.",
+      "parent": null,
+      "dependencies": [
+        "src/__init__.py"
+      ]
+    },
+    {
+      "name": "examples/advanced_rendering_demo.py::zoom_and_rotate",
+      "type": "function",
+      "file_path": "examples/advanced_rendering_demo.py",
+      "line_number": 175,
+      "docstring": "Combine rotation and vertical exaggeration change.",
+      "parent": null,
+      "dependencies": [
+        "src/__init__.py"
+      ]
+    },
+    {
+      "name": "examples/advanced_rendering_demo.py::main",
+      "type": "function",
+      "file_path": "examples/advanced_rendering_demo.py",
+      "line_number": 220,
+      "docstring": "Run all demos.",
+      "parent": null,
+      "dependencies": [
+        "src/__init__.py"
+      ]
+    },
+    {
+      "name": "src/config.py::TerrainConfig",
+      "type": "class",
+      "file_path": "src/config.py",
+      "line_number": 23,
+      "docstring": "Complete configuration for terrain generation and rendering.\n\nThis combines terrain generation parameters, render settings, and\noutput configuration into a single serializable structure.",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/config.py::TerrainConfig.get_erosion_params",
+      "type": "method",
+      "file_path": "src/config.py",
+      "line_number": 89,
+      "docstring": "Extract terrain generation parameters.",
+      "parent": "src/config.py::TerrainConfig",
+      "dependencies": []
+    },
+    {
+      "name": "src/config.py::TerrainConfig.get_hydraulic_params",
+      "type": "method",
+      "file_path": "src/config.py",
+      "line_number": 107,
+      "docstring": "Extract hydraulic erosion parameters.",
+      "parent": "src/config.py::TerrainConfig",
+      "dependencies": []
+    },
+    {
+      "name": "src/config.py::TerrainConfig.get_render_config",
+      "type": "method",
+      "file_path": "src/config.py",
+      "line_number": 120,
+      "docstring": "Extract rendering parameters.",
+      "parent": "src/config.py::TerrainConfig",
+      "dependencies": []
+    },
+    {
+      "name": "src/config.py::TerrainConfig.apply_terrain_preset",
+      "type": "method",
+      "file_path": "src/config.py",
+      "line_number": 139,
+      "docstring": "Apply a terrain generation preset.",
+      "parent": "src/config.py::TerrainConfig",
+      "dependencies": []
+    },
+    {
+      "name": "src/config.py::TerrainConfig.apply_render_preset",
+      "type": "method",
+      "file_path": "src/config.py",
+      "line_number": 167,
+      "docstring": "Apply a render configuration preset.",
+      "parent": "src/config.py::TerrainConfig",
+      "dependencies": []
+    },
+    {
+      "name": "src/config.py::TerrainConfig.to_dict",
+      "type": "method",
+      "file_path": "src/config.py",
+      "line_number": 196,
+      "docstring": "Convert to dictionary for serialization.",
+      "parent": "src/config.py::TerrainConfig",
+      "dependencies": []
+    },
+    {
+      "name": "src/config.py::TerrainConfig.from_dict",
+      "type": "method",
+      "file_path": "src/config.py",
+      "line_number": 201,
+      "docstring": "Create from dictionary.",
+      "parent": "src/config.py::TerrainConfig",
+      "dependencies": []
+    },
+    {
+      "name": "src/config.py::save_config",
+      "type": "function",
+      "file_path": "src/config.py",
+      "line_number": 209,
+      "docstring": "Save configuration to YAML file.",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/config.py::load_config",
+      "type": "function",
+      "file_path": "src/config.py",
+      "line_number": 219,
+      "docstring": "Load configuration from YAML or JSON file.",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "tools/build_knowledge_graph.py::CodeEntity",
+      "type": "class",
+      "file_path": "tools/build_knowledge_graph.py",
+      "line_number": 7,
+      "docstring": null,
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "tools/build_knowledge_graph.py::CodeEntity.__init__",
+      "type": "method",
+      "file_path": "tools/build_knowledge_graph.py",
+      "line_number": 8,
+      "docstring": null,
+      "parent": "tools/build_knowledge_graph.py::CodeEntity",
+      "dependencies": []
+    },
+    {
+      "name": "tools/build_knowledge_graph.py::CodeEntity.to_dict",
+      "type": "method",
+      "file_path": "tools/build_knowledge_graph.py",
+      "line_number": 17,
+      "docstring": null,
+      "parent": "tools/build_knowledge_graph.py::CodeEntity",
+      "dependencies": []
+    },
+    {
+      "name": "tools/build_knowledge_graph.py::KnowledgeGraphBuilder",
+      "type": "class",
+      "file_path": "tools/build_knowledge_graph.py",
+      "line_number": 28,
+      "docstring": null,
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "tools/build_knowledge_graph.py::KnowledgeGraphBuilder.__init__",
+      "type": "method",
+      "file_path": "tools/build_knowledge_graph.py",
+      "line_number": 29,
+      "docstring": null,
+      "parent": "tools/build_knowledge_graph.py::KnowledgeGraphBuilder",
+      "dependencies": []
+    },
+    {
+      "name": "tools/build_knowledge_graph.py::KnowledgeGraphBuilder.analyze",
+      "type": "method",
+      "file_path": "tools/build_knowledge_graph.py",
+      "line_number": 36,
+      "docstring": null,
+      "parent": "tools/build_knowledge_graph.py::KnowledgeGraphBuilder",
+      "dependencies": []
+    },
+    {
+      "name": "tools/build_knowledge_graph.py::KnowledgeGraphBuilder.visit_ClassDef",
+      "type": "method",
+      "file_path": "tools/build_knowledge_graph.py",
+      "line_number": 53,
+      "docstring": null,
+      "parent": "tools/build_knowledge_graph.py::KnowledgeGraphBuilder",
+      "dependencies": []
+    },
+    {
+      "name": "tools/build_knowledge_graph.py::KnowledgeGraphBuilder.visit_FunctionDef",
+      "type": "method",
+      "file_path": "tools/build_knowledge_graph.py",
+      "line_number": 71,
+      "docstring": null,
+      "parent": "tools/build_knowledge_graph.py::KnowledgeGraphBuilder",
+      "dependencies": []
+    },
+    {
+      "name": "tools/build_knowledge_graph.py::KnowledgeGraphBuilder.visit_Import",
+      "type": "method",
+      "file_path": "tools/build_knowledge_graph.py",
+      "line_number": 93,
+      "docstring": null,
+      "parent": "tools/build_knowledge_graph.py::KnowledgeGraphBuilder",
+      "dependencies": []
+    },
+    {
+      "name": "tools/build_knowledge_graph.py::KnowledgeGraphBuilder.visit_ImportFrom",
+      "type": "method",
+      "file_path": "tools/build_knowledge_graph.py",
+      "line_number": 97,
+      "docstring": null,
+      "parent": "tools/build_knowledge_graph.py::KnowledgeGraphBuilder",
+      "dependencies": []
+    },
+    {
+      "name": "tools/build_knowledge_graph.py::KnowledgeGraphBuilder._resolve_dependencies",
+      "type": "method",
+      "file_path": "tools/build_knowledge_graph.py",
+      "line_number": 101,
+      "docstring": null,
+      "parent": "tools/build_knowledge_graph.py::KnowledgeGraphBuilder",
+      "dependencies": []
+    },
+    {
+      "name": "tools/build_knowledge_graph.py::KnowledgeGraphBuilder.export_json",
+      "type": "method",
+      "file_path": "tools/build_knowledge_graph.py",
+      "line_number": 136,
+      "docstring": null,
+      "parent": "tools/build_knowledge_graph.py::KnowledgeGraphBuilder",
+      "dependencies": []
+    },
+    {
+      "name": "tools/build_knowledge_graph.py::KnowledgeGraphBuilder.export_mermaid",
+      "type": "method",
+      "file_path": "tools/build_knowledge_graph.py",
+      "line_number": 145,
+      "docstring": null,
+      "parent": "tools/build_knowledge_graph.py::KnowledgeGraphBuilder",
+      "dependencies": []
+    },
+    {
+      "name": "tools/build_knowledge_graph.py::KnowledgeGraphBuilder.export_mermaid_class_diagram",
+      "type": "method",
+      "file_path": "tools/build_knowledge_graph.py",
+      "line_number": 187,
+      "docstring": null,
+      "parent": "tools/build_knowledge_graph.py::KnowledgeGraphBuilder",
+      "dependencies": []
+    },
+    {
+      "name": "src/generators/erosion.py::ErosionParams",
+      "type": "class",
+      "file_path": "src/generators/erosion.py",
+      "line_number": 21,
+      "docstring": "Represents configurable parameters for terrain height and erosion\ngeneration, including presets for canyons, plains, mountains, and\nnatural terrain. Provides methods to create modified copies and export\nparameters as dictionaries.",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/generators/erosion.py::ErosionParams.canyon",
+      "type": "method",
+      "file_path": "src/generators/erosion.py",
+      "line_number": 48,
+      "docstring": "Preset: Deep erosion with branching valleys.",
+      "parent": "src/generators/erosion.py::ErosionParams",
+      "dependencies": []
+    },
+    {
+      "name": "src/generators/erosion.py::ErosionParams.plains",
+      "type": "method",
+      "file_path": "src/generators/erosion.py",
+      "line_number": 64,
+      "docstring": "Preset: Gentle rolling hills with minimal erosion.",
+      "parent": "src/generators/erosion.py::ErosionParams",
+      "dependencies": []
+    },
+    {
+      "name": "src/generators/erosion.py::ErosionParams.mountains",
+      "type": "method",
+      "file_path": "src/generators/erosion.py",
+      "line_number": 76,
+      "docstring": "Preset: Sharp peaks with moderate erosion.",
+      "parent": "src/generators/erosion.py::ErosionParams",
+      "dependencies": []
+    },
+    {
+      "name": "src/generators/erosion.py::ErosionParams.natural",
+      "type": "method",
+      "file_path": "src/generators/erosion.py",
+      "line_number": 89,
+      "docstring": "Preset: Organic terrain combining ridge noise and domain warping.",
+      "parent": "src/generators/erosion.py::ErosionParams",
+      "dependencies": []
+    },
+    {
+      "name": "src/generators/erosion.py::ErosionParams.override",
+      "type": "method",
+      "file_path": "src/generators/erosion.py",
+      "line_number": 102,
+      "docstring": "Updates the current ErosionParams instance by applying the given\noverrides dictionary and returns a new ErosionParams object with the\nupdated values.",
+      "parent": "src/generators/erosion.py::ErosionParams",
+      "dependencies": []
+    },
+    {
+      "name": "src/generators/erosion.py::ErosionParams.uniforms",
+      "type": "method",
+      "file_path": "src/generators/erosion.py",
+      "line_number": 112,
+      "docstring": null,
+      "parent": "src/generators/erosion.py::ErosionParams",
+      "dependencies": []
+    },
+    {
+      "name": "src/generators/erosion.py::ErosionTerrainGenerator",
+      "type": "class",
+      "file_path": "src/generators/erosion.py",
+      "line_number": 116,
+      "docstring": "GPU-accelerated generator with optional visualization pipelines.",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/generators/erosion.py::ErosionTerrainGenerator.__init__",
+      "type": "method",
+      "file_path": "src/generators/erosion.py",
+      "line_number": 119,
+      "docstring": null,
+      "parent": "src/generators/erosion.py::ErosionTerrainGenerator",
+      "dependencies": []
+    },
+    {
+      "name": "src/generators/erosion.py::ErosionTerrainGenerator._compile_program",
+      "type": "method",
+      "file_path": "src/generators/erosion.py",
+      "line_number": 151,
+      "docstring": "Compiles and returns a moderngl.Program by loading and combining the\nspecified vertex (vert) and fragment (frag) shader source files.",
+      "parent": "src/generators/erosion.py::ErosionTerrainGenerator",
+      "dependencies": []
+    },
+    {
+      "name": "src/generators/erosion.py::ErosionTerrainGenerator._create_framebuffers",
+      "type": "method",
+      "file_path": "src/generators/erosion.py",
+      "line_number": 161,
+      "docstring": "Initializes heightmap and visualization framebuffers and textures using\nthe current OpenGL context, configuring their size, format, and\nfiltering for terrain generation and visualization.",
+      "parent": "src/generators/erosion.py::ErosionTerrainGenerator",
+      "dependencies": []
+    },
+    {
+      "name": "src/generators/erosion.py::ErosionTerrainGenerator._create_geometry",
+      "type": "method",
+      "file_path": "src/generators/erosion.py",
+      "line_number": 180,
+      "docstring": "Initializes a quad geometry by creating vertex and index buffers and\nsets up a vertex array object for rendering with the height shader\nprogram using moderngl.",
+      "parent": "src/generators/erosion.py::ErosionTerrainGenerator",
+      "dependencies": []
+    },
+    {
+      "name": "src/generators/erosion.py::ErosionTerrainGenerator.generate_heightmap",
+      "type": "method",
+      "file_path": "src/generators/erosion.py",
+      "line_number": 224,
+      "docstring": "Generates a terrain heightmap using the specified seed and optional\nseamless tiling, applying parameter overrides. Renders the heightmap\nwith erosion effects via OpenGL, extracts height, normal, and erosion\nmask data, and returns them as a TerrainMaps object.",
+      "parent": "src/generators/erosion.py::ErosionTerrainGenerator",
+      "dependencies": []
+    },
+    {
+      "name": "src/generators/erosion.py::ErosionTerrainGenerator.apply_thermal_erosion",
+      "type": "method",
+      "file_path": "src/generators/erosion.py",
+      "line_number": 281,
+      "docstring": "Applies thermal erosion (talus deposition) to the heightmap.\nThis simulates material falling down steep slopes.",
+      "parent": "src/generators/erosion.py::ErosionTerrainGenerator",
+      "dependencies": []
+    },
+    {
+      "name": "src/generators/erosion.py::ErosionTerrainGenerator.render_visualization",
+      "type": "method",
+      "file_path": "src/generators/erosion.py",
+      "line_number": 329,
+      "docstring": "Renders a visualization of the terrain using the erosion_viz shader.\n\nArgs:\n    water_height: Height of the water plane (0.0 to 1.0).\n    sun_dir: Direction vector of the sun light.\n    mode: Visualization mode (0=Standard, 1=Height, 2=Normals,\n          3=Erosion, 4=Slope, 5=Curvature).\n    time: Time in seconds for animation (water, clouds).\n\nReturns:\n    A numpy array of shape (resolution, resolution, 3) containing the\n    rendered image data (RGB).",
+      "parent": "src/generators/erosion.py::ErosionTerrainGenerator",
+      "dependencies": []
+    },
+    {
+      "name": "src/generators/erosion.py::ErosionTerrainGenerator.render_raymarch",
+      "type": "method",
+      "file_path": "src/generators/erosion.py",
+      "line_number": 377,
+      "docstring": "Renders a high-quality raymarched view of the terrain with advanced\nlighting effects.\n\nArgs:\n    camera_pos: Position of the camera in world space.\n    look_at: Target point the camera is looking at.\n    water_height: Height of the water plane.\n    sun_dir: Direction vector of the sun light.\n    time: Time in seconds for animation.\n    exposure: Exposure multiplier for tone mapping.\n    fog_color: Color of the atmospheric fog.\n    fog_density: Density of the distance fog.\n    fog_height: Height falloff for the height fog.\n    sun_intensity: Intensity multiplier for direct sunlight.\n    ray_max_steps: Maximum number of raymarching steps.\n    ray_min_step: Minimum step size for raymarching.\n    shadow_softness: Softness factor for shadows (higher = sharper).\n    ao_strength: Strength of ambient occlusion (0.0 to 1.0+).\n\nReturns:\n    A numpy array of shape (resolution, resolution, 3) containing the\n    rendered image data (RGB).",
+      "parent": "src/generators/erosion.py::ErosionTerrainGenerator",
+      "dependencies": []
+    },
+    {
+      "name": "src/generators/erosion.py::ErosionTerrainGenerator.cleanup",
+      "type": "method",
+      "file_path": "src/generators/erosion.py",
+      "line_number": 463,
+      "docstring": null,
+      "parent": "src/generators/erosion.py::ErosionTerrainGenerator",
+      "dependencies": []
+    },
+    {
+      "name": "src/generators/erosion.py::ErosionTerrainGenerator._uniform_name",
+      "type": "method",
+      "file_path": "src/generators/erosion.py",
+      "line_number": 482,
+      "docstring": "Converts a snake_case field name to a GLSL uniform name (camelCase with\nu_ prefix).",
+      "parent": "src/generators/erosion.py::ErosionTerrainGenerator",
+      "dependencies": []
+    },
+    {
+      "name": "src/generators/hydraulic.py::HydraulicParams",
+      "type": "class",
+      "file_path": "src/generators/hydraulic.py",
+      "line_number": 11,
+      "docstring": "Parameters for hydraulic erosion simulation.\n\nAttributes:\n    iterations: Number of simulation steps.\n    dt: Time step per iteration.\n    pipe_length: Length of virtual pipes (L).\n    sediment_capacity: Sediment capacity constant (Kc).\n    soil_dissolving: Soil dissolving constant (Ks).\n    sediment_deposition: Sediment deposition constant (Kd).\n    evaporation_rate: Water evaporation rate (Ke).\n    rain_rate: Amount of rain added per step (optional).\n    thermal_erosion_rate: Rate of thermal erosion (talus deposition).\n    talus_angle: Critical angle for thermal erosion (tangent of angle).",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/generators/hydraulic.py::HydraulicErosionGenerator",
+      "type": "class",
+      "file_path": "src/generators/hydraulic.py",
+      "line_number": 39,
+      "docstring": "GPU-accelerated hydraulic erosion simulator using the pipe model.\nImplements a multi-stage simulation pipeline:\n1. Flux computation (water movement)\n2. Water velocity & depth update\n3. Erosion & Deposition (sediment transport)\n4. Sediment Advection (movement with flow)\n5. Evaporation\n6. Thermal Erosion (slope stabilization)",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/generators/hydraulic.py::HydraulicErosionGenerator.__init__",
+      "type": "method",
+      "file_path": "src/generators/hydraulic.py",
+      "line_number": 50,
+      "docstring": null,
+      "parent": "src/generators/hydraulic.py::HydraulicErosionGenerator",
+      "dependencies": []
+    },
+    {
+      "name": "src/generators/hydraulic.py::HydraulicErosionGenerator.cleanup",
+      "type": "method",
+      "file_path": "src/generators/hydraulic.py",
+      "line_number": 166,
+      "docstring": null,
+      "parent": "src/generators/hydraulic.py::HydraulicErosionGenerator",
+      "dependencies": []
+    },
+    {
+      "name": "src/generators/hydraulic.py::HydraulicErosionGenerator.simulate",
+      "type": "method",
+      "file_path": "src/generators/hydraulic.py",
+      "line_number": 182,
+      "docstring": "Runs the hydraulic erosion simulation on the given heightmap.\n\nArgs:\n    initial_heightmap: Initial terrain heightmap (2D numpy array).\n    params: Simulation parameters.\n\nReturns:\n    A TerrainMaps object containing the eroded heightmap, normals, and\n    sediment mask.",
+      "parent": "src/generators/hydraulic.py::HydraulicErosionGenerator",
+      "dependencies": []
+    },
+    {
+      "name": "src/generators/hydraulic.py::HydraulicErosionGenerator.other",
+      "type": "method",
+      "file_path": "src/generators/hydraulic.py",
+      "line_number": 213,
+      "docstring": null,
+      "parent": "src/generators/hydraulic.py::HydraulicErosionGenerator",
+      "dependencies": []
+    },
+    {
+      "name": "src/generators/morphological.py::MorphologicalParams",
+      "type": "class",
+      "file_path": "src/generators/morphological.py",
+      "line_number": 15,
+      "docstring": null,
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/generators/morphological.py::MorphologicalTerrainGPU",
+      "type": "class",
+      "file_path": "src/generators/morphological.py",
+      "line_number": 24,
+      "docstring": null,
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/generators/morphological.py::MorphologicalTerrainGPU.__init__",
+      "type": "method",
+      "file_path": "src/generators/morphological.py",
+      "line_number": 25,
+      "docstring": null,
+      "parent": "src/generators/morphological.py::MorphologicalTerrainGPU",
+      "dependencies": []
+    },
+    {
+      "name": "src/generators/morphological.py::MorphologicalTerrainGPU.generate",
+      "type": "method",
+      "file_path": "src/generators/morphological.py",
+      "line_number": 50,
+      "docstring": null,
+      "parent": "src/generators/morphological.py::MorphologicalTerrainGPU",
+      "dependencies": []
+    },
+    {
+      "name": "src/generators/morphological.py::MorphologicalTerrainGPU.cleanup",
+      "type": "method",
+      "file_path": "src/generators/morphological.py",
+      "line_number": 104,
+      "docstring": null,
+      "parent": "src/generators/morphological.py::MorphologicalTerrainGPU",
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/advanced_rendering.py::_height_array",
+      "type": "function",
+      "file_path": "src/utils/advanced_rendering.py",
+      "line_number": 29,
+      "docstring": "Extract height array from terrain data.",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/advanced_rendering.py::render_turntable_frames",
+      "type": "function",
+      "file_path": "src/utils/advanced_rendering.py",
+      "line_number": 34,
+      "docstring": "Render a turntable sequence by rotating the light source around the terrain.\n\nArgs:\n    terrain: Terrain data (TerrainMaps or compatible dict)\n    frames: Number of frames to generate (one full rotation)\n    altitude: Sun altitude angle in degrees\n    vert_exag: Vertical exaggeration for shading\n    colormap: Matplotlib colormap name\n    blend_mode: Shading blend mode\n\nReturns:\n    List of RGB uint8 arrays, one per frame",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/advanced_rendering.py::save_turntable_video",
+      "type": "function",
+      "file_path": "src/utils/advanced_rendering.py",
+      "line_number": 80,
+      "docstring": "Save a turntable animation as an MP4 video file.\n\nRequires ffmpeg to be installed on the system.\nFalls back to GIF if ffmpeg is not available.\n\nArgs:\n    path: Output file path (.mp4 or .gif)\n    terrain: Terrain data\n    frames: Number of frames in full rotation\n    fps: Frames per second\n    **render_kwargs: Additional arguments passed to render_turntable_frames\n\nReturns:\n    Path to saved file",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/advanced_rendering.py::render_multi_angle",
+      "type": "function",
+      "file_path": "src/utils/advanced_rendering.py",
+      "line_number": 131,
+      "docstring": "Render terrain from multiple lighting angles.\n\nArgs:\n    terrain: Terrain data\n    angles: List of (azimuth, altitude) tuples in degrees.\n            Defaults to cardinal directions + zenith\n    **render_kwargs: Additional rendering parameters\n\nReturns:\n    List of rendered images, one per angle",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/advanced_rendering.py::create_comparison_grid",
+      "type": "function",
+      "file_path": "src/utils/advanced_rendering.py",
+      "line_number": 184,
+      "docstring": "Create a grid comparison of multiple terrains.\n\nArgs:\n    terrains: Sequence of terrain data objects\n    labels: Optional labels for each terrain\n    figsize: Figure size (width, height) in inches\n    dpi: Figure DPI\n    **render_kwargs: Rendering parameters\n\nReturns:\n    Matplotlib figure",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/advanced_rendering.py::render_lighting_study",
+      "type": "function",
+      "file_path": "src/utils/advanced_rendering.py",
+      "line_number": 263,
+      "docstring": "Create a lighting study showing terrain under various light conditions.\n\nUseful for understanding how lighting affects terrain appearance.\n\nArgs:\n    terrain: Terrain data\n    azimuth_steps: Number of azimuth angles to test\n    altitude_steps: Number of altitude angles to test\n    figsize: Figure size override\n    dpi: Figure DPI\n    **render_kwargs: Additional rendering parameters\n\nReturns:\n    Matplotlib figure with grid of lighting variations",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/advanced_rendering.py::save_animation_sequence",
+      "type": "function",
+      "file_path": "src/utils/advanced_rendering.py",
+      "line_number": 336,
+      "docstring": "Save a custom animation sequence as individual PNG frames.\n\nArgs:\n    output_dir: Directory to save frames\n    terrain: Terrain data\n    sequence_func: Function(frame_index, total_frames) -> RGB array\n    frame_count: Total number of frames to generate\n    name_pattern: Filename pattern (must include one format placeholder for frame number)\n    progress_callback: Optional callback(current, total) for progress updates\n\nReturns:\n    List of paths to saved frames",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/artifacts.py::TerrainMaps",
+      "type": "class",
+      "file_path": "src/utils/artifacts.py",
+      "line_number": 13,
+      "docstring": "Container for GPU terrain outputs with handy conversions.",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/artifacts.py::TerrainMaps.ensure",
+      "type": "method",
+      "file_path": "src/utils/artifacts.py",
+      "line_number": 21,
+      "docstring": null,
+      "parent": "src/utils/artifacts.py::TerrainMaps",
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/artifacts.py::TerrainMaps.resolution",
+      "type": "method",
+      "file_path": "src/utils/artifacts.py",
+      "line_number": 37,
+      "docstring": null,
+      "parent": "src/utils/artifacts.py::TerrainMaps",
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/artifacts.py::TerrainMaps.as_dict",
+      "type": "method",
+      "file_path": "src/utils/artifacts.py",
+      "line_number": 40,
+      "docstring": null,
+      "parent": "src/utils/artifacts.py::TerrainMaps",
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/artifacts.py::TerrainMaps._erosion_or_zero",
+      "type": "method",
+      "file_path": "src/utils/artifacts.py",
+      "line_number": 52,
+      "docstring": null,
+      "parent": "src/utils/artifacts.py::TerrainMaps",
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/artifacts.py::TerrainMaps.height_u16",
+      "type": "method",
+      "file_path": "src/utils/artifacts.py",
+      "line_number": 57,
+      "docstring": null,
+      "parent": "src/utils/artifacts.py::TerrainMaps",
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/artifacts.py::TerrainMaps.normal_map_u8",
+      "type": "method",
+      "file_path": "src/utils/artifacts.py",
+      "line_number": 60,
+      "docstring": null,
+      "parent": "src/utils/artifacts.py::TerrainMaps",
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/artifacts.py::TerrainMaps.erosion_mask_u8",
+      "type": "method",
+      "file_path": "src/utils/artifacts.py",
+      "line_number": 64,
+      "docstring": null,
+      "parent": "src/utils/artifacts.py::TerrainMaps",
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/artifacts.py::TerrainMaps.erosion_channel",
+      "type": "method",
+      "file_path": "src/utils/artifacts.py",
+      "line_number": 68,
+      "docstring": null,
+      "parent": "src/utils/artifacts.py::TerrainMaps",
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/batch.py::BatchGenerator",
+      "type": "class",
+      "file_path": "src/utils/batch.py",
+      "line_number": 19,
+      "docstring": "Manages batch generation of terrain maps with varied parameters.",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/batch.py::BatchGenerator.__init__",
+      "type": "method",
+      "file_path": "src/utils/batch.py",
+      "line_number": 22,
+      "docstring": null,
+      "parent": "src/utils/batch.py::BatchGenerator",
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/batch.py::BatchGenerator.generate_set",
+      "type": "method",
+      "file_path": "src/utils/batch.py",
+      "line_number": 42,
+      "docstring": "Generate multiple terrains with different seeds.\n\nArgs:\n    seeds: List of random seeds for variation\n    prefix: Filename prefix for exports\n    export_formats: List of formats to export ('png', 'obj', 'stl', 'npz')\n    progress_callback: Optional callback(current, total, status_msg)\n    **generation_kwargs: Parameters passed to generator\n\nReturns:\n    List of generated TerrainMaps",
+      "parent": "src/utils/batch.py::BatchGenerator",
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/batch.py::BatchGenerator._export_terrain",
+      "type": "method",
+      "file_path": "src/utils/batch.py",
+      "line_number": 100,
+      "docstring": "Export terrain in multiple formats.",
+      "parent": "src/utils/batch.py::BatchGenerator",
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/batch.py::BatchGenerator.cleanup",
+      "type": "method",
+      "file_path": "src/utils/batch.py",
+      "line_number": 133,
+      "docstring": "Release GPU resources.",
+      "parent": "src/utils/batch.py::BatchGenerator",
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/batch.py::generate_terrain_set",
+      "type": "function",
+      "file_path": "src/utils/batch.py",
+      "line_number": 139,
+      "docstring": "Convenience function to generate a set of terrains.\n\nArgs:\n    count: Number of terrains to generate\n    base_seed: Starting seed (will increment)\n    generator: 'erosion' or 'morph'\n    resolution: Texture resolution\n    output_dir: Output directory path\n    formats: Export formats ('png', 'obj', 'stl', 'npz', 'shaded')\n    **kwargs: Additional generation parameters\n\nReturns:\n    List of generated TerrainMaps",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/batch.py::_progress",
+      "type": "function",
+      "file_path": "src/utils/batch.py",
+      "line_number": 165,
+      "docstring": null,
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/export.py::_maps",
+      "type": "function",
+      "file_path": "src/utils/export.py",
+      "line_number": 23,
+      "docstring": null,
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/export.py::save_heightmap_png",
+      "type": "function",
+      "file_path": "src/utils/export.py",
+      "line_number": 27,
+      "docstring": "Write a 16-bit PNG heightmap to disk.",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/export.py::save_normal_map_png",
+      "type": "function",
+      "file_path": "src/utils/export.py",
+      "line_number": 35,
+      "docstring": null,
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/export.py::save_erosion_mask_png",
+      "type": "function",
+      "file_path": "src/utils/export.py",
+      "line_number": 42,
+      "docstring": null,
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/export.py::save_heightmap_raw",
+      "type": "function",
+      "file_path": "src/utils/export.py",
+      "line_number": 49,
+      "docstring": "Write raw 16-bit little-endian heightmap data (Mac/Windows/Linux compatible).",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/export.py::save_heightmap_r32",
+      "type": "function",
+      "file_path": "src/utils/export.py",
+      "line_number": 59,
+      "docstring": "Write raw 32-bit float little-endian heightmap data.",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/export.py::save_npz_bundle",
+      "type": "function",
+      "file_path": "src/utils/export.py",
+      "line_number": 69,
+      "docstring": null,
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/export.py::export_obj_mesh",
+      "type": "function",
+      "file_path": "src/utils/export.py",
+      "line_number": 81,
+      "docstring": "Export the terrain heightmap as a simple grid mesh OBJ.",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/export.py::export_stl_mesh",
+      "type": "function",
+      "file_path": "src/utils/export.py",
+      "line_number": 139,
+      "docstring": "Export the terrain heightmap as a binary STL mesh.",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/gl_context.py::create_context",
+      "type": "function",
+      "file_path": "src/utils/gl_context.py",
+      "line_number": 13,
+      "docstring": "Create a standalone ModernGL context.\n\nFalls back to the default backend if EGL is unavailable.",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/gl_context.py::create_detail_texture",
+      "type": "function",
+      "file_path": "src/utils/gl_context.py",
+      "line_number": 27,
+      "docstring": "Create a small tiling noise texture used by the raymarch renderer.",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/postprocessing.py::apply_tonemapping",
+      "type": "function",
+      "file_path": "src/utils/postprocessing.py",
+      "line_number": 21,
+      "docstring": "Apply tonemapping to HDR-like image data.\n\nArgs:\n    img_array: RGB image array (0-1 range or HDR values)\n    method: Tonemapping algorithm to use\n    exposure: Exposure adjustment factor\n\nReturns:\n    Tonemapped RGB array (0-1 range)",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/postprocessing.py::uncharted2_tonemap_partial",
+      "type": "function",
+      "file_path": "src/utils/postprocessing.py",
+      "line_number": 64,
+      "docstring": null,
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/postprocessing.py::apply_color_grading",
+      "type": "function",
+      "file_path": "src/utils/postprocessing.py",
+      "line_number": 85,
+      "docstring": "Apply color grading adjustments.\n\nArgs:\n    img_array: RGB image array (0-1 range)\n    temperature: Color temperature shift (-1 to 1, warm/cool)\n    tint: Tint adjustment (-1 to 1, green/magenta)\n    saturation: Saturation multiplier\n    contrast: Contrast multiplier\n    brightness: Brightness offset\n    gamma: Gamma correction\n\nReturns:\n    Color graded RGB array",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/postprocessing.py::apply_bloom_effect",
+      "type": "function",
+      "file_path": "src/utils/postprocessing.py",
+      "line_number": 145,
+      "docstring": "Apply bloom/glow effect to bright areas.\n\nArgs:\n    img_array: RGB image array (0-1 range)\n    threshold: Brightness threshold for bloom\n    intensity: Bloom intensity\n    blur_radius: Blur radius for bloom\n\nReturns:\n    Image with bloom effect applied",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/postprocessing.py::apply_ssao_approximation",
+      "type": "function",
+      "file_path": "src/utils/postprocessing.py",
+      "line_number": 194,
+      "docstring": "Apply screen-space ambient occlusion approximation based on heightmap.\n\nArgs:\n    height_array: Height values (0-1 range)\n    radius: Sample radius for occlusion\n    intensity: Occlusion intensity\n\nReturns:\n    AO map (0-1 range, 0=fully occluded)",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/postprocessing.py::apply_sharpening",
+      "type": "function",
+      "file_path": "src/utils/postprocessing.py",
+      "line_number": 230,
+      "docstring": "Apply sharpening to enhance detail.\n\nArgs:\n    img_array: RGB image array (0-1 range)\n    amount: Sharpening strength\n    method: Sharpening algorithm\n\nReturns:\n    Sharpened image",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/postprocessing.py::apply_atmospheric_perspective",
+      "type": "function",
+      "file_path": "src/utils/postprocessing.py",
+      "line_number": 277,
+      "docstring": "Apply atmospheric perspective (fog/haze based on elevation).\n\nArgs:\n    img_array: RGB image array (0-1 range)\n    height_array: Height values (0-1 range)\n    fog_color: RGB fog/sky color\n    fog_density: Overall fog density\n    fog_height_falloff: How quickly fog dissipates with height\n\nReturns:\n    Image with atmospheric perspective applied",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/rendering.py::_height_array",
+      "type": "function",
+      "file_path": "src/utils/rendering.py",
+      "line_number": 15,
+      "docstring": null,
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/rendering.py::shade_heightmap",
+      "type": "function",
+      "file_path": "src/utils/rendering.py",
+      "line_number": 19,
+      "docstring": "Return an RGB uint8 array representing shaded relief.",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/rendering.py::save_shaded_relief_png",
+      "type": "function",
+      "file_path": "src/utils/rendering.py",
+      "line_number": 47,
+      "docstring": "Save :func:`shade_heightmap` output as a PNG file.",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/rendering.py::slope_intensity",
+      "type": "function",
+      "file_path": "src/utils/rendering.py",
+      "line_number": 59,
+      "docstring": "Return a grayscale slope map derived from height gradients.",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/rendering.py::save_slope_map_png",
+      "type": "function",
+      "file_path": "src/utils/rendering.py",
+      "line_number": 79,
+      "docstring": "Save :func:`slope_intensity` output as an 8-bit PNG.",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/render_configs.py::RenderConfig",
+      "type": "class",
+      "file_path": "src/utils/render_configs.py",
+      "line_number": 14,
+      "docstring": "Comprehensive rendering configuration for terrain visualization.",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/render_configs.py::RenderConfig.classic",
+      "type": "method",
+      "file_path": "src/utils/render_configs.py",
+      "line_number": 49,
+      "docstring": "Classic northwest lighting - most common cartographic style.",
+      "parent": "src/utils/render_configs.py::RenderConfig",
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/render_configs.py::RenderConfig.dramatic",
+      "type": "method",
+      "file_path": "src/utils/render_configs.py",
+      "line_number": 60,
+      "docstring": "Low-angle dramatic lighting with high contrast.",
+      "parent": "src/utils/render_configs.py::RenderConfig",
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/render_configs.py::RenderConfig.noon",
+      "type": "method",
+      "file_path": "src/utils/render_configs.py",
+      "line_number": 73,
+      "docstring": "High overhead sun - minimal shadows.",
+      "parent": "src/utils/render_configs.py::RenderConfig",
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/render_configs.py::RenderConfig.sunrise",
+      "type": "method",
+      "file_path": "src/utils/render_configs.py",
+      "line_number": 85,
+      "docstring": "Warm sunrise lighting from the east.",
+      "parent": "src/utils/render_configs.py::RenderConfig",
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/render_configs.py::RenderConfig.sunset",
+      "type": "method",
+      "file_path": "src/utils/render_configs.py",
+      "line_number": 99,
+      "docstring": "Warm sunset lighting from the west.",
+      "parent": "src/utils/render_configs.py::RenderConfig",
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/render_configs.py::RenderConfig.flat",
+      "type": "method",
+      "file_path": "src/utils/render_configs.py",
+      "line_number": 113,
+      "docstring": "Flat shading - no relief, pure elevation colors.",
+      "parent": "src/utils/render_configs.py::RenderConfig",
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/render_configs.py::RenderConfig.contour",
+      "type": "method",
+      "file_path": "src/utils/render_configs.py",
+      "line_number": 126,
+      "docstring": "High contrast for contour-like appearance.",
+      "parent": "src/utils/render_configs.py::RenderConfig",
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/render_configs.py::RenderConfig.technical",
+      "type": "method",
+      "file_path": "src/utils/render_configs.py",
+      "line_number": 139,
+      "docstring": "Clean technical visualization.",
+      "parent": "src/utils/render_configs.py::RenderConfig",
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/render_configs.py::RenderConfig.artistic_vibrant",
+      "type": "method",
+      "file_path": "src/utils/render_configs.py",
+      "line_number": 152,
+      "docstring": "Vibrant artistic style with saturated colors.",
+      "parent": "src/utils/render_configs.py::RenderConfig",
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/render_configs.py::RenderConfig.monochrome",
+      "type": "method",
+      "file_path": "src/utils/render_configs.py",
+      "line_number": 166,
+      "docstring": "Black and white relief shading.",
+      "parent": "src/utils/render_configs.py::RenderConfig",
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/render_configs.py::RenderConfig.underwater",
+      "type": "method",
+      "file_path": "src/utils/render_configs.py",
+      "line_number": 178,
+      "docstring": "Underwater bathymetry style.",
+      "parent": "src/utils/render_configs.py::RenderConfig",
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/render_configs.py::RenderConfig.alpine",
+      "type": "method",
+      "file_path": "src/utils/render_configs.py",
+      "line_number": 191,
+      "docstring": "Alpine terrain with snow caps.",
+      "parent": "src/utils/render_configs.py::RenderConfig",
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/render_configs.py::RenderConfig.desert",
+      "type": "method",
+      "file_path": "src/utils/render_configs.py",
+      "line_number": 204,
+      "docstring": "Hot desert appearance.",
+      "parent": "src/utils/render_configs.py::RenderConfig",
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/render_configs.py::RenderConfig.debug_normals",
+      "type": "method",
+      "file_path": "src/utils/render_configs.py",
+      "line_number": 218,
+      "docstring": "Show normal map visualization.",
+      "parent": "src/utils/render_configs.py::RenderConfig",
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/render_configs.py::RenderConfig.debug_erosion",
+      "type": "method",
+      "file_path": "src/utils/render_configs.py",
+      "line_number": 226,
+      "docstring": "Show erosion mask visualization.",
+      "parent": "src/utils/render_configs.py::RenderConfig",
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/render_configs.py::RenderConfig.debug_slope",
+      "type": "method",
+      "file_path": "src/utils/render_configs.py",
+      "line_number": 234,
+      "docstring": "Show slope angle visualization.",
+      "parent": "src/utils/render_configs.py::RenderConfig",
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/render_configs.py::RenderConfig.debug_curvature",
+      "type": "method",
+      "file_path": "src/utils/render_configs.py",
+      "line_number": 242,
+      "docstring": "Show surface curvature visualization.",
+      "parent": "src/utils/render_configs.py::RenderConfig",
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/shader_loader.py::load_shader",
+      "type": "function",
+      "file_path": "src/utils/shader_loader.py",
+      "line_number": 11,
+      "docstring": "Return the contents of a shader file located under ``src/shaders``.",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/textures.py::save_splatmap_rgba",
+      "type": "function",
+      "file_path": "src/utils/textures.py",
+      "line_number": 19,
+      "docstring": "Export a 4-channel splatmap for texture blending in game engines.\n\nChannels:\n    R: Low terrain (beach/grass)\n    G: Mid terrain (grass/dirt)\n    B: High terrain (rock/snow)\n    A: Steep slopes (cliffs)\n\nArgs:\n    path: Output file path\n    terrain: TerrainMaps instance\n    height_thresholds: (low, mid, high) height breakpoints\n    slope_threshold: Normal.y threshold for steep detection\n\nReturns:\n    Path to saved file",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/textures.py::save_ao_map",
+      "type": "function",
+      "file_path": "src/utils/textures.py",
+      "line_number": 87,
+      "docstring": "Generate and save an ambient occlusion approximation.\n\nUses local height variance as a proxy for occlusion.\n\nArgs:\n    path: Output file path\n    terrain: TerrainMaps instance\n    radius: Sample radius in pixels\n    strength: AO intensity multiplier\n\nReturns:\n    Path to saved file",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/textures.py::save_curvature_map",
+      "type": "function",
+      "file_path": "src/utils/textures.py",
+      "line_number": 126,
+      "docstring": "Generate and save a curvature map (convex=bright, concave=dark).\n\nArgs:\n    path: Output file path\n    terrain: TerrainMaps instance\n    scale: Curvature intensity scaling\n\nReturns:\n    Path to saved file",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/textures.py::save_packed_texture",
+      "type": "function",
+      "file_path": "src/utils/textures.py",
+      "line_number": 160,
+      "docstring": "Save a multi-channel packed texture for efficient storage.\n\nPack modes:\n    'unity_mask': R=Metallic, G=AO, B=Detail, A=Smoothness\n    'ue_orm': R=AO, G=Roughness, B=Metallic\n    'height_normal_ao': R=Height, G=NormalX, B=NormalZ, A=AO\n\nArgs:\n    path: Output file path\n    terrain: TerrainMaps instance\n    pack_mode: Packing scheme\n\nReturns:\n    Path to saved file",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/textures.py::_compute_simple_ao",
+      "type": "function",
+      "file_path": "src/utils/textures.py",
+      "line_number": 218,
+      "docstring": "Fast AO approximation using height variance.",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/visualization.py::_ensure_arrays",
+      "type": "function",
+      "file_path": "src/utils/visualization.py",
+      "line_number": 21,
+      "docstring": null,
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/visualization.py::plot_terrain_panels",
+      "type": "function",
+      "file_path": "src/utils/visualization.py",
+      "line_number": 28,
+      "docstring": "Render shaded relief, raw height, and erosion mask panels.",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/visualization.py::create_turntable_animation",
+      "type": "function",
+      "file_path": "src/utils/visualization.py",
+      "line_number": 60,
+      "docstring": "Create a simple turntable animation using rotating light direction.",
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/visualization.py::_update",
+      "type": "function",
+      "file_path": "src/utils/visualization.py",
+      "line_number": 73,
+      "docstring": null,
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/visualization.py::save_panel_overview",
+      "type": "function",
+      "file_path": "src/utils/visualization.py",
+      "line_number": 86,
+      "docstring": null,
+      "parent": null,
+      "dependencies": []
+    },
+    {
+      "name": "src/utils/visualization.py::save_turntable_gif",
+      "type": "function",
+      "file_path": "src/utils/visualization.py",
+      "line_number": 94,
+      "docstring": null,
+      "parent": null,
+      "dependencies": []
+    }
+  ],
+  "files": [
+    "check_gl_version.py",
+    "demo_advanced_features.py",
+    "generate_sample_renders.py",
+    "gpu_terrain.py",
+    "gpu_terrain_old.py",
+    "inspect_render_quality.py",
+    "test_hydraulic.py",
+    "test_improvements.py",
+    "test_raymarch.py",
+    "test_render_configs.py",
+    "verify_seamless.py",
+    "viz_shader.py",
+    "app/ui_streamlit.py",
+    "examples/advanced_rendering_demo.py",
+    "src/config.py",
+    "src/__init__.py",
+    "tools/build_knowledge_graph.py",
+    "src/generators/erosion.py",
+    "src/generators/hydraulic.py",
+    "src/generators/morphological.py",
+    "src/generators/__init__.py",
+    "src/utils/advanced_rendering.py",
+    "src/utils/artifacts.py",
+    "src/utils/batch.py",
+    "src/utils/export.py",
+    "src/utils/gl_context.py",
+    "src/utils/postprocessing.py",
+    "src/utils/rendering.py",
+    "src/utils/render_configs.py",
+    "src/utils/shader_loader.py",
+    "src/utils/textures.py",
+    "src/utils/visualization.py",
+    "src/utils/__init__.py"
+  ],
+  "file_dependencies": {
+    "check_gl_version.py": [
+      "moderngl",
+      "sys"
+    ],
+    "demo_advanced_features.py": [
+      "__future__",
+      "time",
+      "pathlib",
+      "numpy",
+      "PIL",
+      "src",
+      "src.utils",
+      "src.utils.postprocessing"
+    ],
+    "generate_sample_renders.py": [
+      "__future__",
+      "sys",
+      "pathlib",
+      "src",
+      "src.utils",
+      "time",
+      "PIL",
+      "numpy",
+      "traceback"
+    ],
+    "gpu_terrain.py": [
+      "__future__",
+      "argparse",
+      "json",
+      "pathlib",
+      "numpy",
+      "PIL",
+      "src",
+      "imageio.v3",
+      "matplotlib.pyplot"
+    ],
+    "gpu_terrain_old.py": [
+      "typing",
+      "moderngl",
+      "numpy",
+      "matplotlib.pyplot",
+      "mpl_toolkits.mplot3d",
+      "traceback",
+      "mpl_toolkits.mplot3d",
+      "traceback"
+    ],
+    "inspect_render_quality.py": [
+      "__future__",
+      "json",
+      "pathlib",
+      "typing",
+      "numpy",
+      "PIL"
+    ],
+    "test_hydraulic.py": [
+      "moderngl",
+      "numpy",
+      "PIL",
+      "src.generators.erosion",
+      "src.generators.hydraulic",
+      "src.utils"
+    ],
+    "test_improvements.py": [
+      "sys",
+      "pathlib",
+      "src",
+      "src.generators.erosion",
+      "src",
+      "traceback",
+      "src",
+      "src.generators.erosion",
+      "src",
+      "traceback",
+      "src",
+      "traceback",
+      "src",
+      "tempfile",
+      "traceback"
+    ],
+    "test_raymarch.py": [
+      "numpy",
+      "PIL",
+      "src.generators.erosion",
+      "src.generators.hydraulic",
+      "src.utils",
+      "moderngl"
+    ],
+    "test_render_configs.py": [
+      "__future__",
+      "time",
+      "pathlib",
+      "typing",
+      "numpy",
+      "PIL",
+      "src",
+      "src.utils",
+      "argparse"
+    ],
+    "verify_seamless.py": [
+      "numpy",
+      "PIL",
+      "pathlib",
+      "src",
+      "src.utils",
+      "src.utils.artifacts",
+      "PIL"
+    ],
+    "viz_shader.py": [
+      "sys",
+      "argparse",
+      "time",
+      "pathlib",
+      "moderngl_window"
+    ],
+    "app/ui_streamlit.py": [
+      "__future__",
+      "PIL",
+      "numpy",
+      "streamlit",
+      "traceback",
+      "time",
+      "src.config",
+      "src",
+      "src.utils",
+      "sys",
+      "pathlib"
+    ],
+    "examples/advanced_rendering_demo.py": [
+      "pathlib",
+      "src",
+      "src",
+      "PIL",
+      "matplotlib.colors",
+      "matplotlib",
+      "numpy",
+      "traceback"
+    ],
+    "src/config.py": [
+      "__future__",
+      "dataclasses",
+      "pathlib",
+      "typing",
+      "json",
+      "yaml",
+      "generators.erosion",
+      "generators.hydraulic",
+      "utils.render_configs",
+      "utils.render_configs"
+    ],
+    "src/__init__.py": [
+      "generators",
+      "utils",
+      "config"
+    ],
+    "tools/build_knowledge_graph.py": [
+      "ast",
+      "os",
+      "json",
+      "pathlib",
+      "typing"
+    ],
+    "src/generators/erosion.py": [
+      "__future__",
+      "dataclasses",
+      "typing",
+      "moderngl",
+      "numpy",
+      "utils"
+    ],
+    "src/generators/hydraulic.py": [
+      "moderngl",
+      "numpy",
+      "dataclasses",
+      "typing",
+      "utils",
+      "utils.artifacts"
+    ],
+    "src/generators/morphological.py": [
+      "__future__",
+      "dataclasses",
+      "moderngl",
+      "numpy",
+      "utils"
+    ],
+    "src/generators/__init__.py": [
+      "erosion",
+      "morphological",
+      "hydraulic"
+    ],
+    "src/utils/advanced_rendering.py": [
+      "__future__",
+      "pathlib",
+      "typing",
+      "numpy",
+      "matplotlib",
+      "matplotlib.colors",
+      "matplotlib.pyplot",
+      "PIL",
+      "matplotlib.figure",
+      "artifacts",
+      "imageio"
+    ],
+    "src/utils/artifacts.py": [
+      "__future__",
+      "collections.abc",
+      "dataclasses",
+      "numpy"
+    ],
+    "src/utils/batch.py": [
+      "__future__",
+      "pathlib",
+      "typing",
+      "time",
+      "numpy",
+      "artifacts",
+      "generators",
+      "generators",
+      "generators"
+    ],
+    "src/utils/export.py": [
+      "__future__",
+      "pathlib",
+      "numpy",
+      "PIL",
+      "artifacts",
+      "struct"
+    ],
+    "src/utils/gl_context.py": [
+      "__future__",
+      "pathlib",
+      "typing",
+      "moderngl",
+      "numpy",
+      "shader_loader"
+    ],
+    "src/utils/postprocessing.py": [
+      "__future__",
+      "typing",
+      "numpy",
+      "scipy",
+      "PIL"
+    ],
+    "src/utils/rendering.py": [
+      "__future__",
+      "pathlib",
+      "typing",
+      "numpy",
+      "matplotlib",
+      "matplotlib.colors",
+      "PIL",
+      "artifacts"
+    ],
+    "src/utils/render_configs.py": [
+      "__future__",
+      "dataclasses",
+      "typing"
+    ],
+    "src/utils/shader_loader.py": [
+      "__future__",
+      "pathlib"
+    ],
+    "src/utils/textures.py": [
+      "__future__",
+      "pathlib",
+      "numpy",
+      "PIL",
+      "artifacts",
+      "scipy.ndimage",
+      "scipy.ndimage",
+      "scipy.ndimage"
+    ],
+    "src/utils/visualization.py": [
+      "__future__",
+      "pathlib",
+      "matplotlib.pyplot",
+      "matplotlib",
+      "matplotlib.colors",
+      "numpy",
+      "artifacts"
+    ],
+    "src/utils/__init__.py": [
+      "gl_context",
+      "shader_loader",
+      "visualization",
+      "export",
+      "rendering",
+      "batch",
+      "artifacts",
+      "textures",
+      "advanced_rendering",
+      "render_configs"
+    ]
+  }
+}

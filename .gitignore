@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.venv/
+venv/
+
+# IDEs
+.vscode/
+.idea/
+
+# Project Outputs
+output/
+sample_renders/
+test_render_output/
+test_improvements_output/
+test_batch/
+seamless_verification/
+lighting_comparison_output/
+postprocessing_demo_output/
+notebook_outputs/
+chain_output/
+*.png
+*.obj
+*.stl
+*.exr
+*.raw
+*.r32
+
+# Temporary files
+tmp_*
+buffer_*.txt
+common.txt
+image.txt

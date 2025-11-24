@@ -50,6 +50,7 @@ class HydraulicErosionGenerator:
     def __init__(self, resolution: int = 512, ctx: moderngl.Context | None = None):
         self.resolution = resolution
         self.ctx = ctx if ctx else gl_context.create_context()
+        self._own_ctx = ctx is None
 
         # Load shaders
         self.quad_vert = load_shader("quad.vert")
@@ -178,6 +179,14 @@ class HydraulicErosionGenerator:
         self.prog_advection.release()
         self.prog_evaporation.release()
         self.prog_thermal.release()
+        if self._own_ctx:
+            self.ctx.release()
+
+    def __enter__(self) -> "HydraulicErosionGenerator":
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb) -> None:
+        self.cleanup()
 
     def simulate(self, initial_heightmap: np.ndarray, params: HydraulicParams) -> TerrainMaps:
         """

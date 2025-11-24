@@ -85,6 +85,7 @@ class TerrainConfig:
     export_normals: bool = True
     export_shaded: bool = True
     export_obj: bool = False
+    export_scatter: bool = False
 
     def get_erosion_params(self) -> ErosionParams:
         """Extract terrain generation parameters."""
