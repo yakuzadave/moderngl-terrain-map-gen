@@ -52,8 +52,8 @@ class HydraulicErosionGenerator:
         self.ctx = ctx if ctx else gl_context.create_context()
         self._own_ctx = ctx is None
 
-        # Load shaders
-        self.quad_vert = load_shader("quad.vert")
+        # Load shaders - use hydraulic-specific vertex shader
+        self.quad_vert = load_shader("hydraulic/quad.vert")
 
         self.prog_flux = self.ctx.program(
             vertex_shader=self.quad_vert,
@@ -151,7 +151,7 @@ class HydraulicErosionGenerator:
         ], dtype='f4')
         self.vbo = self.ctx.buffer(vertices.tobytes())
 
-        # VAOs
+        # VAOs - bind both position (2f) and UV (2f) attributes
         self.vaos = {}
         for prog_name, prog in [
             ('flux', self.prog_flux),
@@ -162,7 +162,7 @@ class HydraulicErosionGenerator:
             ('thermal', self.prog_thermal)
         ]:
             self.vaos[prog_name] = self.ctx.vertex_array(
-                prog, [(self.vbo, '2f', 'in_position')])
+                prog, [(self.vbo, '2f 2f', 'in_position', 'in_uv')])
 
     def cleanup(self):
         # Release resources
