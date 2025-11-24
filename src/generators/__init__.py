@@ -2,6 +2,7 @@
 from .erosion import ErosionTerrainGenerator, ErosionParams
 from .morphological import MorphologicalTerrainGPU, MorphologicalParams
 from .hydraulic import HydraulicErosionGenerator, HydraulicParams
+from .rivers import RiverGenerator, RiverParams
 
 __all__ = [
     "ErosionTerrainGenerator",
@@ -10,4 +11,6 @@ __all__ = [
     "MorphologicalParams",
     "HydraulicErosionGenerator",
     "HydraulicParams",
+    "RiverGenerator",
+    "RiverParams",
 ]

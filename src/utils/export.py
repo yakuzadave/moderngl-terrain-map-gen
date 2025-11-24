@@ -271,9 +271,16 @@ def export_gltf_mesh(
 
     # Normals
     if maps.normals is not None:
-        # Use pre-computed normals from terrain
-        normals_rgb = maps.normals.astype(np.float32) / 255.0 * 2.0 - 1.0
-        normals = normals_rgb.reshape(-1, 3)
+        # Normals are stored as float32 in range -1 to 1
+        # Check if they look like uint8 RGB (0-255) or float (-1 to 1)
+        norm_data = maps.normals.astype(np.float32)
+        if norm_data.max() > 1.5:  # Likely 0-255 range
+            norm_data = norm_data / 255.0 * 2.0 - 1.0
+        normals = norm_data.reshape(-1, 3)
+        # Normalize the normal vectors
+        lengths = np.linalg.norm(normals, axis=1, keepdims=True)
+        lengths = np.maximum(lengths, 1e-8)  # Avoid division by zero
+        normals = (normals / lengths).astype(np.float32)
     else:
         # Compute simple normals from heightmap
         normals = np.zeros((h * w, 3), dtype=np.float32)
@@ -302,22 +309,22 @@ def export_gltf_mesh(
 
     # Write positions
     pos_offset = buffer_data.tell()
-    positions.tofile(buffer_data)
+    buffer_data.write(positions.tobytes())
     pos_length = buffer_data.tell() - pos_offset
 
     # Write normals
     norm_offset = buffer_data.tell()
-    normals.tofile(buffer_data)
+    buffer_data.write(normals.tobytes())
     norm_length = buffer_data.tell() - norm_offset
 
     # Write UVs
     uv_offset = buffer_data.tell()
-    uvs.tofile(buffer_data)
+    buffer_data.write(uvs.tobytes())
     uv_length = buffer_data.tell() - uv_offset
 
     # Write indices
     idx_offset = buffer_data.tell()
-    indices.tofile(buffer_data)
+    buffer_data.write(indices.tobytes())
     idx_length = buffer_data.tell() - idx_offset
 
     buffer_bytes = buffer_data.getvalue()

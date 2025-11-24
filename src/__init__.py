@@ -6,6 +6,8 @@ from .generators import (
     MorphologicalParams,
     HydraulicErosionGenerator,
     HydraulicParams,
+    RiverGenerator,
+    RiverParams,
 )
 from .utils import TerrainMaps, RenderConfig
 from .config import TerrainConfig
@@ -18,6 +20,8 @@ __all__ = [
     "MorphologicalParams",
     "HydraulicErosionGenerator",
     "HydraulicParams",
+    "RiverGenerator",
+    "RiverParams",
     "TerrainMaps",
     "TerrainConfig",
     "RenderConfig",

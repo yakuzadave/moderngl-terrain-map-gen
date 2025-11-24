@@ -20,6 +20,9 @@ class TerrainMaps:
     moisture_map: np.ndarray | None = None
     temperature_map: np.ndarray | None = None
     biome_map: np.ndarray | None = None
+    river_map: np.ndarray | None = None
+    water_depth: np.ndarray | None = None
+    flow_accumulation: np.ndarray | None = None
 
     @classmethod
     def ensure(cls, data: "TerrainMaps | Mapping[str, np.ndarray]") -> "TerrainMaps":
