@@ -80,6 +80,21 @@ def _parse_args() -> argparse.Namespace:
                         help="Domain warping strength (overrides preset default)")
     parser.add_argument("--ridge-noise", action="store_true",
                         help="Enable ridge noise for sharp peaks")
+
+    # Thermal Erosion options
+    parser.add_argument("--thermal-iterations", type=int, default=0,
+                        help="Number of thermal erosion iterations")
+    parser.add_argument("--thermal-threshold", type=float, default=0.001,
+                        help="Height difference threshold for thermal erosion")
+    parser.add_argument("--thermal-strength", type=float, default=0.5,
+                        help="Strength of thermal erosion material transfer")
+
+    # Hydraulic Erosion options (for --generator=hydraulic)
+    parser.add_argument("--hydro-iterations", type=int, default=100,
+                        help="Number of hydraulic erosion iterations")
+    parser.add_argument("--hydro-dt", type=float, default=0.002,
+                        help="Time step for hydraulic erosion")
+
     # Chained generation (context-aware)
     parser.add_argument("--chain-count", type=int, default=0,
                         help="Generate N terrains in sequence, adapting params from previous run")
@@ -139,6 +154,8 @@ def _parse_args() -> argparse.Namespace:
                         help="Save packed texture (use --pack-mode)")
     parser.add_argument("--pack-mode", choices=["unity_mask", "ue_orm", "height_normal_ao"],
                         default="unity_mask", help="Packed texture channel layout")
+    parser.add_argument("--scatter-out", type=Path, default=None,
+                        help="Save scatter density map (R=Trees, G=Rocks, B=Grass)")
 
     # Batch generation
     parser.add_argument("--batch-count", type=int, default=0,
@@ -262,6 +279,11 @@ def main() -> None:
     
     if args.ridge_noise:
         preset_overrides["ridge_noise"] = 1
+
+    if args.thermal_iterations > 0:
+        preset_overrides["thermal_iterations"] = args.thermal_iterations
+        preset_overrides["thermal_threshold"] = args.thermal_threshold
+        preset_overrides["thermal_strength"] = args.thermal_strength
 
     # Chained generation mode (adaptive multi-step)
     if args.chain_count > 0:
@@ -615,6 +637,10 @@ def main() -> None:
                 args.packed_out, terrain, pack_mode=args.pack_mode)
             print(
                 f"✓ Saved packed texture ({args.pack_mode}) to {args.packed_out}")
+
+        if args.scatter_out:
+            utils.save_scatter_map(args.scatter_out, terrain)
+            print(f"✓ Saved scatter map to {args.scatter_out}")
 
         # Advanced rendering exports
         if args.multi_angle_out:

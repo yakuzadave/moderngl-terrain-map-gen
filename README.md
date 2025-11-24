@@ -12,11 +12,18 @@ High-performance procedural terrain generation using ModernGL with multi-format 
 - **Terrain Presets**: Canyon, Plains, Mountains with tuned parameters
 - **Seamless Tiling**: Generate tileable terrains for open-world games
 
+### Advanced Rendering
+- **Atmospheric Fog**: Height-based exponential fog with sun glare (Mie scattering)
+- **PBR Materials**: Tri-planar mapping with roughness/metallic properties (Sand, Grass, Rock, Snow)
+- **Raymarched Shadows**: Soft shadows using distance field raymarching
+- **Ambient Occlusion**: Horizon-Based Ambient Occlusion (HBAO) approximation
+- **Thermal Erosion**: Simulation of talus deposition and material collapse
+
 ### Export Formats
 - **Heightmaps**: 16-bit PNG for maximum precision
 - **Normal Maps**: Tangent-space RGB normal maps
 - **Meshes**: Wavefront OBJ and binary STL formats
-- **Textures**: Splatmaps, AO, curvature, packed textures
+- **Textures**: Splatmaps, AO, curvature, packed textures, scatter maps
 - **Data**: Compressed NumPy archives (.npz)
 - **Previews**: Shaded relief visualizations
 
@@ -134,6 +141,9 @@ python gpu_terrain.py --packed-out mask.png --pack-mode unity_mask
 
 # Unreal Engine ORM texture
 python gpu_terrain.py --packed-out orm.png --pack-mode ue_orm
+
+# Scatter density map (R=Trees, G=Rocks, B=Grass)
+python gpu_terrain.py --scatter-out biomes.png
 ```
 
 ### Batch Generation
@@ -244,6 +254,7 @@ from src.utils import (
     export_obj_mesh,
     save_splatmap_rgba,
     save_packed_texture,
+    save_scatter_map,
 )
 
 gen = ErosionTerrainGenerator(resolution=1024)
@@ -255,6 +266,7 @@ save_normal_map_png("normal.png", terrain)
 export_obj_mesh("mesh.obj", terrain)
 save_splatmap_rgba("splat.png", terrain)
 save_packed_texture("mask.png", terrain, pack_mode="unity_mask")
+save_scatter_map("biomes.png", terrain)
 ```
 
 ### Batch Generation
@@ -360,6 +372,7 @@ map_gen/
 --curvature-out FILE           Curvature map
 --packed-out FILE              Packed texture (see --pack-mode)
 --pack-mode {unity_mask,ue_orm,height_normal_ao}
+--scatter-out FILE             Scatter density map (Trees/Rocks/Grass)
 ```
 
 ### Batch Options
