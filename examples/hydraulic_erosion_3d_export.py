@@ -64,6 +64,7 @@ from src.utils import (
 
 class ExportResult(NamedTuple):
     """Container for export results."""
+    """Container for export results."""
     name: str
     terrain: TerrainMaps
     output_dir: Path

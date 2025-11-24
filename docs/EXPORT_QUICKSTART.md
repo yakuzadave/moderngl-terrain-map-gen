@@ -198,8 +198,8 @@ This generates a sample terrain and exports it to all formats with detailed outp
 
 - **Full documentation**: [docs/EXPORT_FORMATS.md](EXPORT_FORMATS.md)
 - **CLI reference**: [docs/EXPORT_CLI_REFERENCE.md](EXPORT_CLI_REFERENCE.md)
-- **Texture exports**: [TEXTURE_EXPORTS.md](../TEXTURE_EXPORTS.md)
-- **Advanced rendering**: [ADVANCED_RENDERING.md](../ADVANCED_RENDERING.md)
+- **Texture exports**: [TEXTURE_EXPORTS.md](./TEXTURE_EXPORTS.md)
+- **Advanced rendering**: [ADVANCED_RENDERING.md](./ADVANCED_RENDERING.md)
 
 ## Troubleshooting
 
