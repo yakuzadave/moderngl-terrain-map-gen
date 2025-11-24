@@ -16,6 +16,7 @@ class TerrainMaps:
     height: np.ndarray
     normals: np.ndarray
     erosion_mask: np.ndarray | None = None
+    scatter_map: np.ndarray | None = None
 
     @classmethod
     def ensure(cls, data: "TerrainMaps | Mapping[str, np.ndarray]") -> "TerrainMaps":
@@ -28,6 +29,10 @@ class TerrainMaps:
                 erosion_mask=np.asarray(
                     data.get("erosion_mask"), dtype=np.float32)
                 if data.get("erosion_mask") is not None
+                else None,
+                scatter_map=np.asarray(
+                    data.get("scatter_map"), dtype=np.float32)
+                if data.get("scatter_map") is not None
                 else None,
             )
         raise TypeError(
@@ -44,6 +49,8 @@ class TerrainMaps:
         }
         if include_optional and self.erosion_mask is not None:
             payload["erosion_mask"] = self.erosion_mask
+        if include_optional and self.scatter_map is not None:
+            payload["scatter_map"] = self.scatter_map
         return payload
 
     # ------------------------------------------------------------------
@@ -67,3 +74,15 @@ class TerrainMaps:
 
     def erosion_channel(self) -> np.ndarray:
         return self._erosion_or_zero()
+
+    def scatter_map_u8(self) -> np.ndarray:
+        if self.scatter_map is None:
+            return np.zeros((*self.resolution, 3), dtype=np.uint8)
+        # Scatter map is RGBA, but we usually only care about RGB for density
+        # If it's 4 channels, take first 3
+        scatter = self.scatter_map
+        if scatter.shape[-1] == 4:
+            scatter = scatter[..., :3]
+
+        scatter = np.clip(scatter, 0.0, 1.0)
+        return (scatter * 255).astype(np.uint8)

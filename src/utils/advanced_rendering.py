@@ -70,6 +70,8 @@ def render_turntable_frames(
             dx=dx,
             dy=dy,
         )
+        if rgb.ndim == 3 and rgb.shape[2] == 4:
+            rgb = rgb[:, :, :3]
         result.append(np.clip(rgb * 255.0, 0.0, 255.0).astype(np.uint8))
 
     return result
@@ -172,6 +174,8 @@ def render_multi_angle(
             dx=dx,
             dy=dy,
         )
+        if rgb.ndim == 3 and rgb.shape[2] == 4:
+            rgb = rgb[:, :, :3]
         result.append(np.clip(rgb * 255.0, 0.0, 255.0).astype(np.uint8))
 
     return result

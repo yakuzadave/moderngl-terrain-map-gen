@@ -18,6 +18,7 @@ from src.utils import (
     save_normal_map_png,
     save_shaded_relief_png,
     export_obj_mesh,
+    save_scatter_map,
     PRESET_CONFIGS,
 )
 
@@ -179,6 +180,12 @@ def export_outputs() -> None:
             if config.export_obj:
                 export_obj_mesh(
                     str(output_dir / f"{base_name}.obj"),
+                    terrain,
+                )
+
+            if config.export_scatter:
+                save_scatter_map(
+                    str(output_dir / f"{base_name}_scatter.png"),
                     terrain,
                 )
 
@@ -345,7 +352,7 @@ with col_preview:
     # Export options
     if st.session_state.terrain is not None:
         st.subheader("Export Options")
-        col1, col2, col3, col4 = st.columns(4)
+        col1, col2, col3, col4, col5 = st.columns(5)
         with col1:
             st.session_state.config.export_heightmap = st.checkbox(
                 "Heightmap", value=st.session_state.config.export_heightmap
@@ -361,6 +368,10 @@ with col_preview:
         with col4:
             st.session_state.config.export_obj = st.checkbox(
                 "OBJ Mesh", value=st.session_state.config.export_obj
+            )
+        with col5:
+            st.session_state.config.export_scatter = st.checkbox(
+                "Scatter Map", value=st.session_state.config.export_scatter
             )
 
 with col_settings:
