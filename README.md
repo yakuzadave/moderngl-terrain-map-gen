@@ -203,7 +203,7 @@ python gpu_terrain.py \
   --batch-formats png,obj,stl,npz,shaded
 ```
 
-See [BATCH_GENERATION.md](BATCH_GENERATION.md) for complete guide.
+See [BATCH_GENERATION.md](docs/BATCH_GENERATION.md) for complete guide.
 
 ### Advanced Options
 
@@ -347,9 +347,9 @@ terrain = gen.generate_heightmap(
 
 - **[docs/EXPORT_FORMATS.md](docs/EXPORT_FORMATS.md)**: Complete guide to all export formats (PNG, RAW, R32, OBJ, STL, glTF, NPZ)
 - **[docs/EXPORT_CLI_REFERENCE.md](docs/EXPORT_CLI_REFERENCE.md)**: Quick CLI reference for export commands
-- **[ADVANCED_RENDERING.md](ADVANCED_RENDERING.md)**: Complete guide to turntable animations, multi-angle renders, and lighting studies
-- **[TEXTURE_EXPORTS.md](TEXTURE_EXPORTS.md)**: Complete texture export guide (splatmaps, AO, curvature, packed textures)
-- **[BATCH_GENERATION.md](BATCH_GENERATION.md)**: Batch generation workflows and automation
+- **[ADVANCED_RENDERING.md](docs/ADVANCED_RENDERING.md)**: Complete guide to turntable animations, multi-angle renders, and lighting studies
+- **[TEXTURE_EXPORTS.md](docs/TEXTURE_EXPORTS.md)**: Complete texture export guide (splatmaps, AO, curvature, packed textures)
+- **[BATCH_GENERATION.md](docs/BATCH_GENERATION.md)**: Batch generation workflows and automation
 - **[HYDRAULIC_EROSION.md](HYDRAULIC_EROSION.md)**: Guide to the physical hydraulic erosion simulation
 - **[IMPROVEMENTS.md](IMPROVEMENTS.md)**: Summary of recent code improvements and new features
 - **[docs/howto/preview-shaders.md](docs/howto/preview-shaders.md)**: Guide to using the standalone GLSL shader viewer
