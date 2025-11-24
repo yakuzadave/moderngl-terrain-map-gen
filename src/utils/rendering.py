@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Literal
 
 import numpy as np
-from matplotlib import cm
+import matplotlib.pyplot as plt
 from matplotlib.colors import LightSource
 from PIL import Image
 
@@ -33,7 +33,7 @@ def shade_heightmap(
     dy = 1.0 / max(1, height.shape[0])
     rgb = ls.shade(
         height,
-        cmap=cm.get_cmap(colormap),
+        cmap=plt.get_cmap(colormap),
         vert_exag=float(vert_exag),
         blend_mode=blend_mode,
         dx=dx,

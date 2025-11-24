@@ -62,10 +62,15 @@ class MorphologicalTerrainGPU:
         fbo_final = self.ctx.framebuffer([tex_final])
 
         fbo_noise.use()
+        # pyright: ignore[reportAttributeAccessIssue]
         self.noise_prog["u_seed"].value = float(seed)
+        # pyright: ignore[reportAttributeAccessIssue]
         self.noise_prog["u_scale"].value = float(params.scale)
+        # pyright: ignore[reportAttributeAccessIssue]
         self.noise_prog["u_octaves"].value = int(params.octaves)
+        # pyright: ignore[reportAttributeAccessIssue]
         self.noise_prog["u_persistence"].value = float(params.persistence)
+        # pyright: ignore[reportAttributeAccessIssue]
         self.noise_prog["u_lacunarity"].value = float(params.lacunarity)
         self.quad_noise.render(moderngl.TRIANGLES)
 
@@ -110,3 +115,9 @@ class MorphologicalTerrainGPU:
         self.erosion_prog.release()
         if self._own_ctx:
             self.ctx.release()
+
+    def __enter__(self) -> "MorphologicalTerrainGPU":
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb) -> None:
+        self.cleanup()

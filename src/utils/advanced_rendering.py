@@ -5,7 +5,6 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any, Callable, Literal, Sequence
 
 import numpy as np
-from matplotlib import cm
 from matplotlib.colors import LightSource
 import matplotlib.pyplot as plt
 from PIL import Image
@@ -64,7 +63,7 @@ def render_turntable_frames(
         ls = LightSource(azdeg=azimuth, altdeg=altitude)
         rgb = ls.shade(
             height,
-            cmap=cm.get_cmap(colormap),
+            cmap=plt.get_cmap(colormap),
             vert_exag=vert_exag,
             blend_mode=blend_mode,
             dx=dx,
@@ -160,7 +159,7 @@ def render_multi_angle(
     dy = 1.0 / max(1, height.shape[0])
 
     result = []
-    cmap = cm.get_cmap(render_kwargs.get("colormap", "terrain"))
+    cmap = plt.get_cmap(render_kwargs.get("colormap", "terrain"))
     vert_exag = render_kwargs.get("vert_exag", 2.0)
     blend_mode = render_kwargs.get("blend_mode", "soft")
 
@@ -220,7 +219,7 @@ def create_comparison_grid(
     elif cols == 1:
         axes = axes.reshape(-1, 1)
 
-    cmap = cm.get_cmap(render_kwargs.get("colormap", "terrain"))
+    cmap = plt.get_cmap(render_kwargs.get("colormap", "terrain"))
     azimuth = render_kwargs.get("azimuth", 315.0)
     altitude = render_kwargs.get("altitude", 45.0)
     vert_exag = render_kwargs.get("vert_exag", 2.0)
@@ -304,7 +303,7 @@ def render_lighting_study(
     height = _height_array(terrain)
     dx = 1.0 / max(1, height.shape[1])
     dy = 1.0 / max(1, height.shape[0])
-    cmap = cm.get_cmap(render_kwargs.get("colormap", "terrain"))
+    cmap = plt.get_cmap(render_kwargs.get("colormap", "terrain"))
     vert_exag = render_kwargs.get("vert_exag", 2.0)
     blend_mode = render_kwargs.get("blend_mode", "soft")
 

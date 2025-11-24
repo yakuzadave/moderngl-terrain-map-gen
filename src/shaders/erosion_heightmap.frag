@@ -1,7 +1,8 @@
 #version 330
 
 in vec2 uv;
-out vec4 fragColor;
+layout(location = 0) out vec4 fragColor;
+layout(location = 1) out vec4 fragAux;
 
 uniform int useErosion;
 uniform float u_seed;
@@ -24,15 +25,18 @@ uniform float u_erosionStrength;
 uniform float u_warpStrength; // Strength of domain warping (0.0 to 1.0+)
 uniform int u_ridgeNoise;     // 1 to enable inverted absolute noise (sharp peaks)
 
+uniform float u_moistureScale;
+uniform int   u_moistureOctaves;
+uniform float u_moistureOffset;
+
 uniform vec2 u_texelSize;
 
 #define PI 3.14159265358979
 
-// Standard hash function
-vec2 hash(in vec2 x) {
-    const vec2 k = vec2(0.3183099, 0.3678794);
-    x = x * k + k.yx;
-    return -1.0 + 2.0 * fract(16.0 * k * fract(x.x * x.y * (x.x + x.y)));
+// Improved hash function to reduce grid artifacts
+vec2 hash(vec2 p) {
+    p = vec2(dot(p, vec2(127.1, 311.7)), dot(p, vec2(269.5, 183.3)));
+    return -1.0 + 2.0 * fract(sin(p) * 43758.5453123);
 }
 
 // Seamless hash - wraps coordinates modulo tile size
@@ -217,6 +221,53 @@ vec2 generateHeightmap(vec2 uv) {
     return vec2(finalHeight, h.x);
 }
 
+float generateMoisture(vec2 uv) {
+    vec2 p = (uv * u_moistureScale) + vec2(u_seed * 51.51, u_seed * 12.12 + u_moistureOffset);
+    float m = 0.0;
+    float amp = 0.5;
+    float freq = 1.0;
+
+    if (u_seamless > 0) {
+        for (int i = 0; i < 8; i++) {
+            if (i >= u_moistureOctaves) break;
+            m += noisedSeamless(p * freq, u_moistureScale).x * amp;
+            amp *= 0.5;
+            freq *= 2.0;
+        }
+    } else {
+        for (int i = 0; i < 8; i++) {
+            if (i >= u_moistureOctaves) break;
+            m += noised(p * freq).x * amp;
+            amp *= 0.5;
+            freq *= 2.0;
+        }
+    }
+    return clamp(m * 0.5 + 0.5, 0.0, 1.0);
+}
+
+float getBiome(float height, float moisture, float temp) {
+    if (height < u_waterHeight) return 0.0; // Water
+
+    if (temp < 0.25) {
+        if (moisture < 0.1) return 2.0; // Scorched
+        return 5.0; // Snow
+    }
+    if (temp < 0.5) {
+        if (moisture < 0.3) return 4.0; // Tundra
+        if (moisture < 0.6) return 8.0; // Grassland
+        return 9.0; // Forest
+    }
+    if (temp < 0.8) {
+        if (moisture < 0.2) return 11.0; // Desert
+        if (moisture < 0.6) return 7.0; // Shrubland
+        return 10.0; // Rain Forest
+    }
+    // Hot
+    if (moisture < 0.3) return 11.0; // Desert
+    if (moisture < 0.6) return 7.0; // Savanna
+    return 13.0; // Tropical Rain Forest
+}
+
 void main() {
     vec2 heightData = generateHeightmap(uv);
     float height = heightData.x;
@@ -231,4 +282,12 @@ void main() {
 
     // Store X/Z components of the normal; Y can be reconstructed in sampling shader
     fragColor = vec4(height, normal.x, normal.z, heightData.y);
+
+    // Aux Data
+    float moisture = generateMoisture(uv);
+    // Simple temperature: decreases with height
+    float temp = clamp(1.0 - height * 1.2, 0.0, 1.0);
+    float biome = getBiome(height, moisture, temp);
+
+    fragAux = vec4(moisture, temp, biome, 1.0);
 }

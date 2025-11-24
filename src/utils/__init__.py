@@ -16,6 +16,8 @@ from .export import (
     save_npz_bundle,
     export_obj_mesh,
     export_stl_mesh,
+    export_gltf_mesh,
+    export_all_formats,
 )
 from .rendering import (
     shade_heightmap,
@@ -69,6 +71,8 @@ __all__ = [
     "save_npz_bundle",
     "export_obj_mesh",
     "export_stl_mesh",
+    "export_gltf_mesh",
+    "export_all_formats",
     "BatchGenerator",
     "generate_terrain_set",
     "save_splatmap_rgba",

@@ -40,6 +40,9 @@ class ErosionParams:
     erosion_strength: float = 0.04
     warp_strength: float = 0.0  # Domain warping strength
     ridge_noise: int = 0        # 0 = Standard FBM, 1 = Ridge Noise
+    moisture_scale: float = 2.0
+    moisture_octaves: int = 4
+    moisture_offset: float = 0.0
     thermal_iterations: int = 0
     thermal_threshold: float = 0.001
     thermal_strength: float = 0.5
@@ -169,7 +172,17 @@ class ErosionTerrainGenerator:
         size = (self.resolution, self.resolution)
         self.heightmap_texture = self.ctx.texture(size, 4, dtype="f4")
         self.heightmap_texture.filter = (moderngl.LINEAR, moderngl.LINEAR)
+
+        self.aux_texture = self.ctx.texture(size, 4, dtype="f4")
+        self.aux_texture.filter = (moderngl.LINEAR, moderngl.LINEAR)
+
+        # FBO for initial generation (writes to both height and aux)
+        self.gen_fbo = self.ctx.framebuffer(
+            [self.heightmap_texture, self.aux_texture])
+
+        # FBOs for single-texture operations (thermal erosion, readback)
         self.heightmap_fbo = self.ctx.framebuffer([self.heightmap_texture])
+        self.aux_fbo = self.ctx.framebuffer([self.aux_texture])
 
         self.pingpong_texture = self.ctx.texture(size, 4, dtype="f4")
         self.pingpong_texture.filter = (moderngl.LINEAR, moderngl.LINEAR)
@@ -245,8 +258,10 @@ class ErosionTerrainGenerator:
             params.erosion_tiles = max(1.0, round(params.erosion_tiles))
 
         uniforms = params.uniforms()
-        self.heightmap_fbo.use()
-        self.heightmap_fbo.clear(0.0, 0.0, 0.0, 1.0)
+
+        # Use gen_fbo for initial render (Height + Aux)
+        self.gen_fbo.use()
+        self.gen_fbo.clear(0.0, 0.0, 0.0, 1.0)
 
         program = self.height_program
         program["useErosion"].value = 1 if self.use_erosion else 0  # type: ignore
@@ -279,10 +294,20 @@ class ErosionTerrainGenerator:
             (self.resolution, self.resolution, 4))
         data = np.flip(data, axis=0)
 
+        raw_aux = self.aux_fbo.read(components=4, dtype="f4")
+        data_aux = np.frombuffer(raw_aux, dtype="f4").reshape(
+            (self.resolution, self.resolution, 4))
+        data_aux = np.flip(data_aux, axis=0)
+
         height = data[:, :, 0]
         nx = data[:, :, 1]
         nz = data[:, :, 2]
         erosion = data[:, :, 3]
+
+        moisture = data_aux[:, :, 0]
+        temperature = data_aux[:, :, 1]
+        biome = data_aux[:, :, 2]
+
         ny_sq = np.clip(1.0 - nx**2 - nz**2, 0.0, 1.0)
         ny = np.sqrt(ny_sq)
         normals = np.stack([nx, ny, nz], axis=-1)
@@ -290,7 +315,15 @@ class ErosionTerrainGenerator:
         # Generate scatter map
         scatter_map = self.generate_scatter_map(params.water_height)
 
-        return TerrainMaps(height=height, normals=normals, erosion_mask=erosion, scatter_map=scatter_map)
+        return TerrainMaps(
+            height=height,
+            normals=normals,
+            erosion_mask=erosion,
+            scatter_map=scatter_map,
+            moisture_map=moisture,
+            temperature_map=temperature,
+            biome_map=biome
+        )
 
     def generate_scatter_map(self, water_height: float) -> np.ndarray:
         """
@@ -496,11 +529,14 @@ class ErosionTerrainGenerator:
 
     # ------------------------------------------------------------------
     def cleanup(self) -> None:
+        self.gen_fbo.release()
         self.heightmap_fbo.release()
+        self.aux_fbo.release()
         self.pingpong_fbo.release()
         self.viz_fbo.release()
         self.scatter_fbo.release()
         self.heightmap_texture.release()
+        self.aux_texture.release()
         self.pingpong_texture.release()
         self.viz_texture.release()
         self.scatter_texture.release()
@@ -515,6 +551,12 @@ class ErosionTerrainGenerator:
         self.detail_texture.release()
         if self._own_ctx:
             self.ctx.release()
+
+    def __enter__(self) -> "ErosionTerrainGenerator":
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb) -> None:
+        self.cleanup()
 
     @staticmethod
     def _uniform_name(field_name: str) -> str:

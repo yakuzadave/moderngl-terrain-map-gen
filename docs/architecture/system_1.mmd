@@ -1,0 +1,49 @@
+---
+id: 50aa8f8d-6a18-465b-b727-bbe38c9d193c
+---
+graph TD
+    User[User] -->|CLI Args| CLI[gpu_terrain.py]
+    User -->|Interactions| UI[app/ui_streamlit.py]
+    
+    subgraph "Entry Points"
+        CLI
+        UI
+    end
+    
+    CLI -->|Config| Gen[Generators]
+    UI -->|Config| Gen
+    
+    subgraph "Core Logic (src/generators)"
+        Gen --> Erosion[ErosionTerrainGenerator]
+        Gen --> Hydro[HydraulicErosionGenerator]
+        Gen --> Morph[MorphologicalTerrainGPU]
+    end
+    
+    subgraph "Rendering Engine (ModernGL)"
+        Ctx[GL Context]
+        Shaders[GLSL Shaders]
+        Buffers[Framebuffers/Textures]
+        
+        Erosion -->|Uses| Ctx
+        Erosion -->|Compiles| Shaders
+        Erosion -->|Renders to| Buffers
+        Hydro -->|Uses| Ctx
+    end
+    
+    subgraph "Data Model"
+        Maps[TerrainMaps Object]
+    end
+    
+    Buffers -->|ReadPixels| Maps
+    
+    subgraph "Utilities (src/utils)"
+        Export[Export Utils]
+        Viz[Visualization Utils]
+        Tex[Texture Utils]
+    end
+    
+    Maps -->|Save PNG/OBJ| Export
+    Maps -->|Matplotlib| Viz
+    Maps -->|Pack Channels| Tex
+    
+    Export --> Files[(Output Files)]

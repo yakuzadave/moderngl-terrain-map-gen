@@ -17,6 +17,9 @@ class TerrainMaps:
     normals: np.ndarray
     erosion_mask: np.ndarray | None = None
     scatter_map: np.ndarray | None = None
+    moisture_map: np.ndarray | None = None
+    temperature_map: np.ndarray | None = None
+    biome_map: np.ndarray | None = None
 
     @classmethod
     def ensure(cls, data: "TerrainMaps | Mapping[str, np.ndarray]") -> "TerrainMaps":
@@ -34,6 +37,18 @@ class TerrainMaps:
                     data.get("scatter_map"), dtype=np.float32)
                 if data.get("scatter_map") is not None
                 else None,
+                moisture_map=np.asarray(
+                    data.get("moisture_map"), dtype=np.float32)
+                if data.get("moisture_map") is not None
+                else None,
+                temperature_map=np.asarray(
+                    data.get("temperature_map"), dtype=np.float32)
+                if data.get("temperature_map") is not None
+                else None,
+                biome_map=np.asarray(
+                    data.get("biome_map"), dtype=np.float32)
+                if data.get("biome_map") is not None
+                else None,
             )
         raise TypeError(
             "Terrain data must be TerrainMaps or mapping with 'height'/'normals'.")
@@ -47,10 +62,17 @@ class TerrainMaps:
             "height": self.height,
             "normals": self.normals,
         }
-        if include_optional and self.erosion_mask is not None:
-            payload["erosion_mask"] = self.erosion_mask
-        if include_optional and self.scatter_map is not None:
-            payload["scatter_map"] = self.scatter_map
+        if include_optional:
+            if self.erosion_mask is not None:
+                payload["erosion_mask"] = self.erosion_mask
+            if self.scatter_map is not None:
+                payload["scatter_map"] = self.scatter_map
+            if self.moisture_map is not None:
+                payload["moisture_map"] = self.moisture_map
+            if self.temperature_map is not None:
+                payload["temperature_map"] = self.temperature_map
+            if self.biome_map is not None:
+                payload["biome_map"] = self.biome_map
         return payload
 
     # ------------------------------------------------------------------
