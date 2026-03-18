@@ -441,12 +441,13 @@ terrain = TerrainMaps.ensure(data)
 # Generate with preset
 python gpu_terrain.py --preset canyon --seed 42 --resolution 1024
 
-# Custom parameters
+# Custom generation controls
 python gpu_terrain.py \
     --resolution 1024 \
     --seed 12345 \
-    --height-amp 0.3 \
-    --erosion-strength 0.06 \
+    --warp-strength 0.2 \
+    --thermal-iterations 8 \
+    --thermal-strength 0.6 \
     --seamless
 ```
 
@@ -462,15 +463,15 @@ python gpu_terrain.py \
     --obj-out mesh.obj
 ```
 
-### Using Config Files
+### Using Preset Files
 
 ```bash
-# Generate from config
-python gpu_terrain.py --config configs/my_terrain.yaml
+# Save the effective erosion preset to JSON
+python gpu_terrain.py --preset mountains --save-preset configs/mountains.json
 
-# Override config values
+# Generate from a saved preset file
 python gpu_terrain.py \
-    --config configs/base.yaml \
+    --preset-file configs/mountains.json \
     --seed 999 \
     --resolution 2048
 ```

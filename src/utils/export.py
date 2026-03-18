@@ -29,21 +29,21 @@ def _maps(terrain) -> TerrainMaps:
 def save_heightmap_png(path: str | Path, terrain) -> Path:
     """Write a 16-bit PNG heightmap to disk."""
     target = Path(path)
-    img = Image.fromarray(_maps(terrain).height_u16(), mode="I;16")
+    img = Image.fromarray(_maps(terrain).height_u16())
     img.save(target)
     return target
 
 
 def save_normal_map_png(path: str | Path, terrain) -> Path:
     target = Path(path)
-    img = Image.fromarray(_maps(terrain).normal_map_u8(), mode="RGB")
+    img = Image.fromarray(_maps(terrain).normal_map_u8())
     img.save(target)
     return target
 
 
 def save_erosion_mask_png(path: str | Path, terrain) -> Path:
     target = Path(path)
-    img = Image.fromarray(_maps(terrain).erosion_mask_u8(), mode="L")
+    img = Image.fromarray(_maps(terrain).erosion_mask_u8())
     img.save(target)
     return target
 
@@ -337,7 +337,7 @@ def export_gltf_mesh(
 
     if embed_textures:
         # Heightmap texture
-        height_img = Image.fromarray(maps.height_u16(), mode="I;16")
+        height_img = Image.fromarray(maps.height_u16())
         height_io = BytesIO()
         height_img.save(height_io, format="PNG")
         height_b64 = base64.b64encode(height_io.getvalue()).decode('ascii')
@@ -349,7 +349,7 @@ def export_gltf_mesh(
 
         # Normal map texture
         if maps.normals is not None:
-            normal_img = Image.fromarray(maps.normal_map_u8(), mode="RGB")
+            normal_img = Image.fromarray(maps.normal_map_u8())
             normal_io = BytesIO()
             normal_img.save(normal_io, format="PNG")
             normal_b64 = base64.b64encode(normal_io.getvalue()).decode('ascii')

@@ -375,6 +375,9 @@ def main() -> None:
 
     # Batch generation mode
     if args.batch_count > 0:
+        if args.generator == "hydraulic":
+            raise SystemExit(
+                "Batch generation currently supports only the erosion and morph generators.")
         formats = [f.strip() for f in args.batch_formats.split(",")]
         print(f"Batch generating {args.batch_count} terrains...")
 
@@ -423,6 +426,8 @@ def main() -> None:
                 defaults = ErosionParams.plains()
             elif args.preset == "mountains":
                 defaults = ErosionParams.mountains()
+            elif args.preset == "natural":
+                defaults = ErosionParams.natural()
             else:
                 defaults = ErosionParams()
 
@@ -473,8 +478,8 @@ def main() -> None:
             hydro_gen = HydraulicErosionGenerator(
                 resolution=args.resolution, ctx=erosion_gen.ctx)
             params = HydraulicParams(
-                iterations=100,
-                dt=0.002,
+                iterations=args.hydro_iterations,
+                dt=args.hydro_dt,
             )
             # Apply overrides if any (TODO: Map preset overrides to hydraulic params)
 

@@ -52,10 +52,14 @@ from src import (
     MorphologicalParams,
     HydraulicErosionGenerator,
     HydraulicParams,
+    RiverGenerator,
+    RiverParams,
     
     # Data structures
     TerrainMaps,
     TerrainConfig,
+    load_config,
+    save_config,
     RenderConfig,
     
     # Utilities namespace
@@ -90,7 +94,7 @@ Load configuration from YAML or JSON file.
 
 **Supported formats:** `.yaml`, `.yml`, `.json`
 
-#### `save_config(config: TerrainConfig, path: str | Path) -> Path`
+#### `save_config(config: TerrainConfig, path: str | Path) -> None`
 Save configuration to YAML or JSON file.
 
 **Auto-detects format from extension.**
@@ -232,7 +236,7 @@ Python `snake_case` → GLSL `u_camelCase`
 **Mesh Exports:**
 - `export_obj_mesh()` - Wavefront OBJ with UVs
 - `export_stl_mesh()` - Binary STL (3D printing)
-- `export_gltf_mesh()` - glTF 2.0 (requires pygltflib)
+- `export_gltf_mesh()` - glTF 2.0 with embedded textures
 
 **Batch Export:**
 - `export_all_formats()` - Export multiple formats at once
@@ -543,7 +547,6 @@ Based on academic papers on hydraulic erosion simulation.
 - **matplotlib** - Visualization and colormaps
 
 ### Optional Dependencies
-- **pygltflib** - glTF export (install separately)
 - **ffmpeg** - MP4 video encoding (system install)
 - **imageio** - Animation support
 - **streamlit** - Web UI (for `app/ui_streamlit.py`)

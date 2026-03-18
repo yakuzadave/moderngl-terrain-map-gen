@@ -335,11 +335,11 @@ gen = ErosionTerrainGenerator(resolution=1024)
 terrain = gen.generate_heightmap(
     seed=42,
     seamless=True,
-    # Override shader uniforms
-    u_octaves=8,
-    u_lacunarity=2.5,
-    u_persistence=0.6,
-    u_erosion_strength=0.9,
+    # Override erosion parameter fields
+    height_octaves=8,
+    height_lacunarity=2.5,
+    height_gain=0.6,
+    erosion_strength=0.09,
 )
 ```
 
@@ -350,8 +350,8 @@ terrain = gen.generate_heightmap(
 - **[ADVANCED_RENDERING.md](docs/ADVANCED_RENDERING.md)**: Complete guide to turntable animations, multi-angle renders, and lighting studies
 - **[TEXTURE_EXPORTS.md](docs/TEXTURE_EXPORTS.md)**: Complete texture export guide (splatmaps, AO, curvature, packed textures)
 - **[BATCH_GENERATION.md](docs/BATCH_GENERATION.md)**: Batch generation workflows and automation
-- **[HYDRAULIC_EROSION.md](HYDRAULIC_EROSION.md)**: Guide to the physical hydraulic erosion simulation
-- **[IMPROVEMENTS.md](IMPROVEMENTS.md)**: Summary of recent code improvements and new features
+- **[HYDRAULIC_EROSION.md](docs/HYDRAULIC_EROSION.md)**: Guide to the physical hydraulic erosion simulation
+- **[IMPROVEMENTS.md](docs/dev/IMPROVEMENTS.md)**: Summary of recent code improvements and new features
 - **[docs/howto/preview-shaders.md](docs/howto/preview-shaders.md)**: Guide to using the standalone GLSL shader viewer
 - **[terrain_gen.ipynb](terrain_gen.ipynb)**: Interactive Jupyter notebook with examples
 
@@ -359,13 +359,18 @@ terrain = gen.generate_heightmap(
 
 ```
 map_gen/
+├── app/
+│   └── ui_streamlit.py        # Streamlit UI
 ├── gpu_terrain.py              # CLI entry point
 ├── requirements.txt            # Python dependencies
 ├── terrain_gen.ipynb          # Interactive notebook
+├── terrain_gen_marimo.py      # Marimo UI
 ├── src/
 │   ├── __init__.py
+│   ├── config.py              # Serializable config helpers
 │   ├── generators/
 │   │   ├── erosion.py         # Erosion-based terrain
+│   │   ├── hydraulic.py       # Hydraulic erosion simulator
 │   │   └── morphological.py   # Voronoi-based terrain
 │   ├── shaders/
 │   │   ├── erosion_heightmap.frag
@@ -378,7 +383,7 @@ map_gen/
 │       ├── textures.py        # Game engine textures
 │       ├── batch.py           # Batch generation
 │       └── visualization.py   # Matplotlib plots
-└── notebook_outputs/          # Notebook output directory
+└── output/                    # Generated artifacts
 ```
 
 ## CLI Reference
@@ -386,10 +391,10 @@ map_gen/
 ### Generation Options
 
 ```
---generator {erosion,morph}    Generator type (default: erosion)
+--generator {erosion,morph,hydraulic}  Generator type (default: erosion)
 --resolution SIZE              Texture resolution, power of 2 (default: 512)
 --seed SEED                    Random seed for reproducibility (default: 42)
---preset {default,canyon,plains,mountains}  Terrain preset (erosion only)
+--preset {default,canyon,plains,mountains,natural}  Terrain preset (erosion base terrain)
 --seamless                     Force seamless tiling
 --disable-erosion              Turn off erosion layers
 ```

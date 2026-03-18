@@ -10,7 +10,7 @@ from .generators import (
     RiverParams,
 )
 from .utils import TerrainMaps, RenderConfig
-from .config import TerrainConfig
+from .config import TerrainConfig, load_config, save_config
 from . import utils
 
 __all__ = [
@@ -24,6 +24,8 @@ __all__ = [
     "RiverParams",
     "TerrainMaps",
     "TerrainConfig",
+    "load_config",
+    "save_config",
     "RenderConfig",
     "utils",
 ]

@@ -208,20 +208,23 @@ class TerrainConfig:
 
 
 def save_config(config: TerrainConfig, path: str | Path) -> None:
-    """Save configuration to YAML file."""
+    """Save configuration to YAML or JSON file."""
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
 
-    with open(path, "w") as f:
-        yaml.dump(config.to_dict(), f,
-                  default_flow_style=False, sort_keys=False)
+    with open(path, "w", encoding="utf-8") as f:
+        if path.suffix == ".json":
+            json.dump(config.to_dict(), f, indent=2)
+        else:
+            yaml.dump(config.to_dict(), f,
+                      default_flow_style=False, sort_keys=False)
 
 
 def load_config(path: str | Path) -> TerrainConfig:
     """Load configuration from YAML or JSON file."""
     path = Path(path)
 
-    with open(path, "r") as f:
+    with open(path, "r", encoding="utf-8") as f:
         if path.suffix == ".json":
             data = json.load(f)
         else:  # .yaml or .yml

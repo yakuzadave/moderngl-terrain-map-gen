@@ -75,17 +75,19 @@ class ErosionTerrainGenerator:
 ```python
 def generate_heightmap(
     self,
-    seed: int = 42,
-    params: ErosionParams | None = None,
+    seed: int = 0,
     seamless: bool = False,
+    **overrides,
 ) -> TerrainMaps:
     """
     Generate a terrain heightmap with erosion features.
     
     Args:
         seed: Random seed for reproducible generation
-        params: Erosion parameters (uses defaults if None)
         seamless: Enable tileable/seamless terrain generation
+        **overrides: Keyword overrides applied to the generator's
+            default ErosionParams fields, for example
+            ``height_amp=0.3`` or ``erosion_strength=0.06``
         
     Returns:
         TerrainMaps: Container with height, normals, and erosion mask
@@ -402,7 +404,7 @@ class TerrainConfig:
 def load_config(path: str | Path) -> TerrainConfig:
     """Load config from YAML or JSON file."""
 
-def save_config(config: TerrainConfig, path: str | Path) -> Path:
+def save_config(config: TerrainConfig, path: str | Path) -> None:
     """Save config to YAML or JSON file."""
 ```
 
@@ -583,7 +585,7 @@ def export_gltf_mesh(
     terrain,
     scale: float = 10.0,
     height_scale: float = 2.0,
-    embed_textures: bool = False,
+    embed_textures: bool = True,
 ) -> Path:
     """
     Export terrain as glTF 2.0 mesh.
@@ -593,10 +595,7 @@ def export_gltf_mesh(
         terrain: TerrainMaps instance
         scale: XZ plane scale factor
         height_scale: Vertical scale multiplier
-        embed_textures: Include heightmap texture in glTF
-        
-    Note:
-        Requires pygltflib: pip install pygltflib
+        embed_textures: Include embedded PNG textures in the glTF
     """
 ```
 
@@ -978,7 +977,7 @@ def generate_terrain_set(
     Args:
         count: Number of terrains to generate
         base_seed: Starting seed value
-        generator: "erosion", "hydraulic", or "morph"
+        generator: "erosion" or "morph"
         resolution: Output resolution
         output_dir: Output directory path
         formats: Export formats list

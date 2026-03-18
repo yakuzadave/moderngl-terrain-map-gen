@@ -45,18 +45,15 @@ Batch generation creates organized directories:
 
 ```
 batch_output/
-  terrain_0042/
-    heightmap.png          # 16-bit PNG heightmap
-    normal_map.png         # RGB normal map
-    erosion_mask.png       # Grayscale erosion intensity
-    shaded.png             # CPU-rendered shaded relief
-    mesh.obj               # Wavefront OBJ mesh (if requested)
-    mesh.stl               # Binary STL mesh (if requested)
-    bundle.npz             # NumPy bundle (if requested)
-  terrain_0043/
-    ...
-  terrain_0044/
-    ...
+  terrain_0042_height.png   # 16-bit PNG heightmap
+  terrain_0042_normal.png   # RGB normal map
+  terrain_0042_erosion.png  # Grayscale erosion intensity
+  terrain_0042_shaded.png   # CPU-rendered shaded relief
+  terrain_0042.obj          # Wavefront OBJ mesh (if requested)
+  terrain_0042.stl          # Binary STL mesh (if requested)
+  terrain_0042.npz          # NumPy bundle (if requested)
+  terrain_0043_height.png
+  ...
 ```
 
 ## CLI Options
@@ -86,10 +83,10 @@ batch_output/
 All standard terrain generation options apply to batch mode:
 
 ```bash
---preset PRESET         # Terrain preset: default, canyon, plains, mountains
+--preset PRESET         # Terrain preset: default, canyon, plains, mountains, natural
 --resolution SIZE       # Texture resolution (power of 2)
 --seed SEED            # Starting seed (increments for each terrain)
---generator TYPE       # Generator: erosion or morph
+--generator TYPE       # Generator: erosion or morph (hydraulic is not supported in batch mode)
 --seamless             # Force seamless tiling
 ```
 
@@ -291,7 +288,6 @@ NumPy compressed archive containing:
 - `height`: Float32 height field
 - `normals`: Float32 normal map (Nx3)
 - `erosion_mask`: Float32 erosion mask (if available)
-- `metadata`: Resolution, seed, generator type
 
 ### Shaded Exports
 
@@ -415,11 +411,11 @@ generate_terrain_set(
     resolution=1024,
     output_dir="custom_canyons",
     formats=["png", "obj"],
-    # Custom uniforms
-    u_octaves=8,
-    u_lacunarity=2.5,
-    u_persistence=0.6,
-    u_erosion_strength=0.8,
+    # Erosion parameter overrides
+    height_octaves=8,
+    height_lacunarity=2.5,
+    height_gain=0.6,
+    erosion_strength=0.08,
 )
 ```
 

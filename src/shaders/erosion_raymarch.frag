@@ -20,6 +20,7 @@ uniform int u_rayMaxSteps;
 uniform float u_rayMinStep;
 uniform float u_shadowSoftness;
 uniform float u_aoStrength;
+uniform vec2 u_heightRange;  // (min, max) height for normalization
 
 #define PI 3.14159265
 #define saturate(x) clamp(x, 0.0, 1.0)
@@ -123,7 +124,9 @@ vec4 map(vec3 p, out float erosion) {
         return vec4(-100.0, 0.0, 1.0, 0.0);
     }
     vec4 tex = texture(u_heightmap, texUV);
-    float height = tex.x;
+    // Normalize height from [u_heightRange.x, u_heightRange.y] to [0, 1]
+    float rawHeight = tex.x;
+    float height = (rawHeight - u_heightRange.x) / max(0.001, u_heightRange.y - u_heightRange.x);
     vec3 normal;
     normal.xy = tex.yz;
     normal.z = sqrt(max(0.0, 1.0 - dot(normal.xy, normal.xy)));

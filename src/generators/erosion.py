@@ -487,6 +487,14 @@ class ErosionTerrainGenerator:
         self.viz_fbo.use()
         self.viz_fbo.clear(0.0, 0.0, 0.0, 1.0)
 
+
+        # Read height data to compute range for normalization in shader
+        raw_height = self.heightmap_fbo.read(components=4, dtype="f4")
+        height_data = np.frombuffer(raw_height, dtype="f4").reshape(
+            (self.resolution, self.resolution, 4))
+        height_channel = height_data[:, :, 0]
+        height_min = float(height_channel.min())
+        height_max = float(height_channel.max())
         self.heightmap_texture.use(location=0)
         self.detail_texture.use(location=1)
 
@@ -495,6 +503,9 @@ class ErosionTerrainGenerator:
         program["u_detail"].value = 1  # type: ignore
         program["u_res"].value = (  # type: ignore
             float(self.resolution), float(self.resolution))
+        # Pass height range for normalization
+        if "u_heightRange" in program:
+            program["u_heightRange"].value = (height_min, height_max)  # type: ignore
         if "u_time" in program:
             program["u_time"].value = float(time)  # type: ignore
         program["u_camPos"].value = tuple(map(float, camera_pos))  # type: ignore
